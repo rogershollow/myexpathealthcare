@@ -3,199 +3,253 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Expat Healthcare · Project Requirements &amp; Build Plan</title>
+<title>My Expat Healthcare · PRD, Execution Plan, Taxonomy, SOP &amp; Templates</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&family=Lora:ital,wght@1,400;1,600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --navy:#37291D; --navy-deep:#2A1E14; --blue:#E8700F; --blue-deep:#F06C00; --blue-tint:#FCF1E4;
-    --ink:#37291D; --muted:#7A6858; --line:#EADFD1; --line-soft:#F1E8DB;
-    --bg:#FAF6F1; --card:#ffffff;
-    --gold:#C1A375; --vermilion:#E4531B;
-    --rule-fg:#256045; --rule-bg:#ecf6ef; --rule-bd:#bfe3cc;
-    --conf-fg:#8a5d20;
-    --always-bd:#F0DBC1;
-    --radius:14px; --radius-sm:9px;
-    --shadow:0 1px 2px rgba(55,41,29,.05), 0 8px 24px rgba(55,41,29,.07);
+    --sienna:#C15A2B; --sienna-600:#A34B24; --sienna-700:#853C1C;
+    --sand:#C9A57C; --sand-300:#EAD6BA; --sand-100:#F4EBDD;
+    --sage:#7C8A6E; --sage-100:#F1F4EA; --sage-700:#5C6851;
+    --ink:#1A1A1A; --muted:#6B6259;
+    --off:#FAF6F0; --card:#FFFFFF;
+    --line:#E8DFD0; --line-soft:#F0E9DC;
+    --radius:12px; --radius-sm:8px;
+    --shadow:0 1px 2px rgba(26,26,26,.04), 0 8px 24px rgba(26,26,26,.06);
+    --serif:"Source Serif 4",Georgia,serif;
+    --sans:"Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    --quote:"Lora",Georgia,serif;
   }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{
-    margin:0; background:var(--bg); color:var(--ink);
-    font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
-    font-size:16px; line-height:1.62; -webkit-font-smoothing:antialiased;
-  }
-  a{color:var(--blue-deep); text-decoration:none}
-  .wrap{max-width:1080px; margin:0 auto; padding:0 22px}
+  body{margin:0; background:var(--off); color:var(--ink);
+    font-family:var(--sans); font-size:18px; line-height:1.75;
+    -webkit-font-smoothing:antialiased}
+  a{color:var(--sienna); text-decoration:none}
+  a:hover{color:var(--sienna-600)}
+  p{margin:0 0 1.25em; max-width:68ch}
+  em{font-style:italic}
+  .wrap{max-width:1080px; margin:0 auto; padding:0 24px}
+  .muted{color:var(--muted)}
+  :focus-visible{outline:3px solid var(--sand); outline-offset:2px; border-radius:4px}
 
-  /* ---------- header ---------- */
-  header.masthead{background:linear-gradient(180deg,#fffdfb 0%, var(--bg) 100%); border-bottom:1px solid var(--line)}
-  .masthead .wrap{padding-top:46px; padding-bottom:34px}
-  .eyebrow{display:inline-block; font-size:12px; font-weight:700; letter-spacing:.16em;
-    text-transform:uppercase; color:var(--blue-deep); background:var(--blue-tint);
-    border:1px solid var(--always-bd); padding:5px 12px; border-radius:999px}
-  h1{font-family:"Spectral",Georgia,serif; font-weight:700; color:var(--blue);
-    font-size:clamp(30px,5vw,46px); line-height:1.08; margin:16px 0 10px; letter-spacing:-.01em}
-  .lede{font-size:clamp(16px,2.2vw,18.5px); color:var(--muted); max-width:70ch; margin:0}
-  .meta{display:flex; flex-wrap:wrap; gap:10px; margin-top:24px}
+  /* ---------- hero (unchanged structure) ---------- */
+  header.masthead{background:linear-gradient(180deg,#FFFDF9 0%, var(--off) 100%); border-bottom:1px solid var(--line)}
+  .masthead .wrap{padding-top:52px; padding-bottom:38px}
+  .eyebrow{display:inline-block; font-family:var(--sans); font-size:12px; font-weight:700; letter-spacing:.16em;
+    text-transform:uppercase; color:#fff; background:var(--sienna); padding:6px 14px; border-radius:6px}
+  h1{font-family:var(--serif); font-weight:700; color:var(--sienna);
+    font-size:clamp(32px,5vw,46px); line-height:1.2; margin:18px 0 10px; letter-spacing:-.01em}
+  .lede{font-family:var(--quote); font-style:italic; font-size:clamp(18px,2.2vw,21px); line-height:1.55; color:#4A443C; max-width:62ch; margin:0}
+  .meta{display:flex; flex-wrap:wrap; gap:10px; margin-top:26px}
   .chip{display:flex; flex-direction:column; gap:2px; background:var(--card);
-    border:1px solid var(--line); border-radius:var(--radius-sm); padding:9px 14px; min-width:150px; box-shadow:var(--shadow)}
+    border:1px solid var(--line); border-radius:var(--radius-sm); padding:10px 14px; min-width:150px; box-shadow:var(--shadow)}
   .chip .k{font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
-  .chip .v{font-size:14.5px; font-weight:600; color:var(--ink)}
+  .chip .v{font-size:15px; font-weight:600; color:var(--ink)}
+
+  /* ---------- top navigation (brand-guide style) ---------- */
+  nav.topnav{position:sticky; top:0; z-index:70; background:var(--ink)}
+  nav.topnav .wrap{display:flex; flex-wrap:wrap; gap:2px}
+  nav.topnav a{flex:none; color:#CFC8BE; padding:15px 18px 13px; font-size:15px; font-weight:600;
+    white-space:nowrap; border-bottom:2px solid transparent; transition:color .15s ease}
+  nav.topnav a:hover{color:#fff}
+  nav.topnav a.active{color:var(--sienna); border-bottom-color:var(--sienna)}
 
   /* ---------- layout ---------- */
-  .layout{display:grid; grid-template-columns:1fr; gap:0}
-  @media(min-width:940px){
-    .layout{grid-template-columns:250px minmax(0,1fr); gap:40px; align-items:start}
-    nav.toc{position:sticky; top:22px}
-  }
-  main{padding:34px 0 10px}
+  .layout{display:block}
+  main{padding:14px 0 20px}
+  .part{margin:52px 0 0; scroll-margin-top:64px}
+  .part:first-child{margin-top:26px}
 
-  /* ---------- toc ---------- */
-  nav.toc{padding-top:34px}
-  nav.toc .toc-card{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:16px 16px 10px; box-shadow:var(--shadow)}
-  nav.toc h2{font-size:11.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin:2px 4px 12px; font-weight:700}
-  nav.toc ol{list-style:none; margin:0; padding:0; counter-reset:toc}
-  nav.toc li{counter-increment:toc}
-  nav.toc a{display:grid; grid-template-columns:22px 1fr; gap:8px; align-items:baseline;
-    padding:6px 6px; border-radius:8px; color:var(--ink); font-size:14px; font-weight:500}
-  nav.toc a::before{content:counter(toc); color:var(--blue-deep); font-weight:700; font-variant-numeric:tabular-nums; font-size:12.5px}
-  nav.toc a:hover{background:var(--blue-tint)}
-  nav.toc a.active{background:var(--blue-tint); color:var(--navy); font-weight:600}
+  /* part banner bars (guide: Section Banner Bars — Primary variant) */
+  .pbanner{position:relative; background:var(--sienna); border-radius:10px; padding:18px 26px; color:#fff; box-shadow:var(--shadow)}
+  .pbanner::after{content:""; position:absolute; right:20px; top:50%; transform:translateY(-50%);
+    width:3px; height:28px; background:rgba(255,255,255,.45); border-radius:2px}
+  .plabel{font-size:11px; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.85); margin-bottom:3px}
+  h2.ptitle{font-family:var(--serif); font-weight:600; font-size:24px; color:#fff; margin:0; letter-spacing:-.005em}
 
-  /* ---------- sections ---------- */
-  section{scroll-margin-top:20px; padding:30px 0; border-top:1px solid var(--line-soft)}
-  section:first-of-type{border-top:none; padding-top:6px}
-  .sec-head{display:flex; align-items:center; gap:14px; margin:0 0 14px}
-  .num{flex:none; width:34px; height:34px; border-radius:9px; background:var(--blue); color:#fff;
-    font-weight:700; font-size:16px; display:grid; place-items:center; font-family:"Spectral",serif; box-shadow:0 2px 6px rgba(232,112,15,.30)}
-  h2.sec-title{font-family:"Spectral",serif; color:var(--navy); font-weight:600; font-size:24px; margin:0; letter-spacing:-.01em}
-  .lead-line{font-family:"Spectral",serif; font-weight:600; color:var(--navy); font-size:clamp(18px,2.3vw,22px); line-height:1.28; margin:0 0 14px; letter-spacing:-.01em}
-  p{margin:0 0 12px}
-  .lead{font-size:17px; color:var(--ink); max-width:64ch}
-  .muted{color:var(--muted)}
-  em{font-style:italic}
+  /* ---------- sections (guide: 05 —— Title) ---------- */
+  section{scroll-margin-top:64px; padding:36px 0; border-top:1px solid var(--line-soft)}
+  .part section:first-of-type{border-top:none}
+  .sec-head{display:flex; align-items:center; gap:0; margin:0 0 16px}
+  .num{display:flex; align-items:center; color:var(--sienna); font-family:var(--sans);
+    font-weight:600; font-size:14px; letter-spacing:.14em}
+  .num::after{content:""; display:block; width:30px; height:2px; background:var(--sand); margin:0 16px}
+  h2.sec-title{font-family:var(--serif); color:var(--ink); font-weight:600; font-size:1.625rem; line-height:1.3; margin:0; letter-spacing:-.005em}
+  .lead-line{font-family:var(--serif); font-weight:600; color:var(--ink); font-size:1.375rem; line-height:1.4; margin:0 0 14px; max-width:none}
+  .lead{font-size:18px; color:var(--ink)}
+  .ws-meta{display:flex; flex-wrap:wrap; gap:8px; margin:0 0 16px}
+  .tag{font-size:13px; font-weight:600; color:var(--sienna-700); background:var(--sand-100); border:1px solid var(--sand-300); border-radius:6px; padding:3px 10px}
+  .tag.dark{color:var(--off); background:var(--ink); border-color:var(--ink)}
 
-  /* ---------- hubs ---------- */
+  /* hubs */
   .hubs{display:flex; flex-wrap:wrap; gap:8px; margin-top:10px}
-  .hub{font-size:13px; font-weight:600; background:var(--blue-tint); color:var(--blue-deep);
-    border:1px solid var(--always-bd); border-radius:999px; padding:5px 13px}
+  .hub{font-size:14px; font-weight:600; background:var(--sand-100); color:var(--sienna-700);
+    border:1px solid var(--sand-300); border-radius:999px; padding:6px 15px}
 
-  /* ---------- objective cards ---------- */
-  .ogrid{display:grid; gap:12px; margin:12px 0}
+  /* cards */
+  .ogrid{display:grid; gap:14px; margin:14px 0}
   @media(min-width:720px){.ogrid{grid-template-columns:repeat(2,1fr)}}
-  .ocard{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:16px 18px; box-shadow:var(--shadow)}
-  .ocard .n{font-family:"Spectral",serif; font-weight:700; color:var(--vermilion); font-size:14px}
-  .ocard h4{margin:6px 0 5px; font-size:16px; color:var(--navy); font-weight:700}
-  .ocard p{margin:0; font-size:14.5px; color:var(--muted)}
+  .ocard{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:18px 20px; box-shadow:var(--shadow)}
+  .ocard .n{font-family:var(--serif); font-weight:700; color:var(--sienna); font-size:15px}
+  .ocard h4{font-family:var(--serif); margin:6px 0 5px; font-size:1.125rem; color:var(--ink); font-weight:600}
+  .ocard p{margin:0; font-size:16px; line-height:1.65; color:var(--muted)}
 
-  /* ---------- hours ledger ---------- */
-  .ledger{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:6px 22px; box-shadow:var(--shadow); margin:10px 0}
-  .lgroup{padding:18px 0; border-bottom:1px solid var(--line-soft)}
-  .lgroup:last-child{border-bottom:none}
-  .lgroup-head{display:flex; justify-content:space-between; align-items:baseline; gap:16px; margin-bottom:10px}
-  .lgroup-head h4{margin:0; font-size:13px; color:var(--navy); font-weight:700; text-transform:uppercase; letter-spacing:.06em}
-  .lgroup-total{font-size:12.5px; color:var(--blue-deep); font-weight:700; white-space:nowrap}
-  .lrow{display:flex; align-items:baseline; gap:8px; padding:6px 0}
-  .lrow .name{color:var(--ink); font-size:14.5px}
-  .lrow .dots{flex:1; border-bottom:1.5px dotted var(--gold); transform:translateY(-4px); min-width:20px; opacity:.7}
-  .lrow .hrs{font-size:13px; color:var(--navy); white-space:nowrap; font-weight:700}
-  .billing{font-size:12.5px; color:var(--muted); margin:12px 0 4px; line-height:1.55}
-
-  /* ---------- interview flow ---------- */
-  .eflow{display:flex; flex-wrap:wrap; gap:0; margin:12px 0 16px; background:var(--navy); border-radius:var(--radius); padding:20px 18px; color:#EEE4D7; box-shadow:var(--shadow)}
-  .estep{flex:1 1 130px; padding:4px 16px; position:relative}
-  .estep:not(:last-child)::after{content:"→"; position:absolute; right:-7px; top:6px; color:var(--blue); font-weight:700}
-  .estep .s{font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--gold); font-weight:700}
-  .estep .t{font-family:"Spectral",serif; font-size:16px; color:#F7F0E6; margin-top:4px; line-height:1.25; font-weight:600}
-  .jobs{display:grid; gap:10px; margin-top:12px}
+  /* dark interview flow band */
+  .eflow{display:flex; flex-wrap:wrap; gap:0; margin:14px 0 18px; background:var(--ink); border-radius:var(--radius); padding:22px 20px; color:var(--off); box-shadow:var(--shadow)}
+  .estep{flex:1 1 140px; padding:4px 16px; position:relative}
+  .estep:not(:last-child)::after{content:"→"; position:absolute; right:-7px; top:6px; color:var(--sienna); font-weight:700}
+  .estep .s{font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--sand); font-weight:700}
+  .estep .t{font-family:var(--serif); font-size:1.06rem; color:#FDFBF7; margin-top:4px; line-height:1.35; font-weight:600}
+  .jobs{display:grid; gap:12px; margin-top:14px}
   @media(min-width:720px){.jobs{grid-template-columns:repeat(3,1fr)}}
-  .job{background:var(--card); border:1px solid var(--line); border-left:3px solid var(--blue); border-radius:var(--radius-sm); padding:12px 14px; box-shadow:var(--shadow)}
-  .job b{font-family:"Spectral",serif; font-weight:700; display:block; font-size:15px; color:var(--navy); margin-bottom:3px}
-  .job span{font-size:14px; color:var(--muted)}
+  .job{background:var(--card); border:1px solid var(--line); border-left:3px solid var(--sienna); border-radius:var(--radius-sm); padding:14px 16px; box-shadow:var(--shadow)}
+  .job b{font-family:var(--serif); font-weight:600; display:block; font-size:1.06rem; color:var(--ink); margin-bottom:3px}
+  .job span{font-size:16px; line-height:1.6; color:var(--muted)}
 
-  /* ---------- revenue layers ---------- */
-  .flag{display:inline-block; font-size:11px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:#fff; background:var(--rule-fg); border-radius:5px; padding:3px 9px; margin-bottom:12px}
-  .layers{counter-reset:layer; margin:8px 0}
-  .layer{display:flex; gap:16px; padding:14px 0; border-bottom:1px solid var(--line-soft); align-items:baseline}
-  .layer:last-child{border-bottom:none}
-  .layer::before{counter-increment:layer; content:counter(layer,decimal-leading-zero); font-family:"Spectral",serif; font-weight:700; color:var(--blue); font-size:16px; min-width:30px}
-  .layer h4{margin:0 0 3px; font-size:15.5px; color:var(--navy); font-weight:700}
-  .layer p{margin:0; font-size:14.5px; color:var(--muted)}
-
-  /* ---------- roadmap rail ---------- */
-  .rail{position:relative; margin:14px 0 4px; padding-left:6px}
-  .rail::before{content:""; position:absolute; left:18px; top:14px; bottom:14px; width:2px; background:linear-gradient(var(--blue),var(--gold))}
-  .phase{position:relative; padding:0 0 26px 58px}
+  /* roadmap rail */
+  .rail{position:relative; margin:16px 0 4px; padding-left:6px}
+  .rail::before{content:""; position:absolute; left:19px; top:14px; bottom:14px; width:2px; background:linear-gradient(var(--sienna),var(--sand))}
+  .phase{position:relative; padding:0 0 28px 60px}
   .phase:last-child{padding-bottom:0}
-  .node{position:absolute; left:0; top:0; width:38px; height:38px; border-radius:10px; background:var(--card); border:2px solid var(--blue); display:grid; place-items:center; font-family:"Spectral",serif; font-size:15px; color:var(--blue-deep); font-weight:700; box-shadow:var(--shadow); z-index:1}
-  .phase.kick .node{background:var(--blue); border-color:var(--blue); color:#fff}
+  .node{position:absolute; left:0; top:0; width:40px; height:40px; border-radius:10px; background:var(--card); border:2px solid var(--sienna); display:grid; place-items:center; font-family:var(--serif); font-size:16px; color:var(--sienna-700); font-weight:700; box-shadow:var(--shadow); z-index:1}
+  .phase.kick .node{background:var(--sienna); border-color:var(--sienna); color:#fff}
   .phase-head{display:flex; flex-wrap:wrap; align-items:baseline; gap:10px; margin-bottom:5px}
-  .phase-head h4{margin:0; font-size:17px; color:var(--navy); font-weight:700; font-family:"Spectral",serif}
-  .tag{font-size:11.5px; font-weight:700; color:var(--blue-deep); background:var(--blue-tint); border:1px solid var(--always-bd); border-radius:5px; padding:2px 9px}
+  .phase-head h4{margin:0; font-size:1.15rem; color:var(--ink); font-weight:600; font-family:var(--serif)}
   .phase ul{margin:6px 0 0; padding:0; list-style:none}
-  .phase li{position:relative; padding:3px 0 3px 18px; font-size:14.5px; color:var(--ink)}
-  .phase li::before{content:""; position:absolute; left:2px; top:11px; width:6px; height:6px; border-radius:50%; background:var(--blue)}
+  .phase li{position:relative; padding:3px 0 3px 20px; font-size:16px; line-height:1.65; color:var(--ink)}
+  .phase li::before{content:""; position:absolute; left:2px; top:13px; width:6px; height:6px; border-radius:50%; background:var(--sienna)}
 
-  /* ---------- included / future ---------- */
-  .cols{display:grid; gap:12px; margin:10px 0}
+  /* included/future */
+  .cols{display:grid; gap:14px; margin:12px 0}
   @media(min-width:720px){.cols{grid-template-columns:1fr 1fr}}
-  .col{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:16px 18px; box-shadow:var(--shadow)}
-  .col.future{background:var(--blue-tint); border-color:var(--always-bd)}
-  .col h4{margin:0 0 8px; font-size:15px; color:var(--navy); font-weight:700}
+  .col{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:18px 20px; box-shadow:var(--shadow)}
+  .col.future{background:var(--sand-100); border-color:var(--sand-300)}
+  .col h4{font-family:var(--serif); margin:0 0 8px; font-size:1.1rem; color:var(--ink); font-weight:600}
   .col ul{margin:0; padding:0; list-style:none}
-  .col li{position:relative; padding:4px 0 4px 18px; font-size:14.5px; color:var(--ink)}
-  .col li::before{content:""; position:absolute; left:2px; top:12px; width:6px; height:6px; border-radius:50%; background:var(--blue)}
-  .col.future li{color:#8A5A28}
-  .col.future li::before{background:var(--conf-fg)}
-  .note{font-size:13px; color:var(--muted); margin-top:14px; font-style:italic}
+  .col li{position:relative; padding:4px 0 4px 20px; font-size:16px; line-height:1.6; color:var(--ink)}
+  .col li::before{content:""; position:absolute; left:2px; top:14px; width:6px; height:6px; border-radius:50%; background:var(--sienna)}
+  .col.future li{color:#6B4E22}
+  .col.future li::before{background:var(--sand)}
+  .note{font-size:15px; color:var(--muted); margin-top:16px; font-style:italic}
 
-  /* ---------- needs ---------- */
+  /* needs */
   .needs{list-style:none; margin:8px 0 0; padding:0; counter-reset:need}
-  .needs li{display:flex; gap:14px; padding:11px 0; border-bottom:1px solid var(--line-soft); align-items:baseline}
+  .needs li{display:flex; gap:16px; padding:12px 0; border-bottom:1px solid var(--line-soft); align-items:baseline}
   .needs li:last-child{border-bottom:none}
-  .needs li::before{counter-increment:need; content:counter(need,decimal-leading-zero); font-family:"Spectral",serif; font-weight:700; font-size:12.5px; color:var(--vermilion); min-width:24px}
-  .needs .what{font-weight:700; color:var(--navy)}
-  .needs .why{color:var(--muted); font-size:14px}
+  .needs li::before{counter-increment:need; content:counter(need,decimal-leading-zero); font-family:var(--serif); font-weight:700; font-size:14px; color:var(--sienna); min-width:26px}
+  .needs .what{font-weight:700; color:var(--ink)}
+  .needs .why{color:var(--muted); font-size:16px}
 
-  /* ---------- next steps ---------- */
-  .steps-box{background:var(--navy); color:#EEE4D7; border-radius:var(--radius); padding:22px 26px; box-shadow:var(--shadow); margin:8px 0}
-  .steps-box ol{margin:0; padding-left:20px}
-  .steps-box li{margin-bottom:9px; color:#E4D8C9}
-  .steps-box li::marker{color:var(--blue); font-weight:700}
+  /* dark next-steps box */
+  .steps-box{background:var(--ink); color:var(--off); border-radius:var(--radius); padding:24px 28px; box-shadow:var(--shadow); margin:8px 0}
+  .steps-box ol{margin:0; padding-left:22px}
+  .steps-box li{margin-bottom:10px; color:#E9E2D6}
+  .steps-box li::marker{color:var(--sienna); font-weight:700}
 
-  /* ---------- footer ---------- */
-  footer{border-top:1px solid var(--line); margin-top:20px; padding:26px 0 60px; color:var(--muted); font-size:13.5px}
-  footer .wrap{display:flex; flex-wrap:wrap; gap:8px 14px; align-items:center; justify-content:space-between}
-  footer .v{font-weight:700; color:var(--navy)}
+  /* step rows */
+  .steps,.trows{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:4px 22px; box-shadow:var(--shadow); margin:12px 0 16px}
+  .srow,.trow{display:flex; gap:16px; padding:14px 0; border-bottom:1px solid var(--line-soft); align-items:baseline}
+  .srow:last-child,.trow:last-child{border-bottom:none}
+  .srow .sn{font-family:var(--serif); font-weight:700; color:var(--sienna); font-size:15px; min-width:22px}
+  .srow .sbody{flex:1}
+  .srow .sbody b{font-family:var(--serif); color:var(--ink); font-size:1.06rem; font-weight:600}
+  .srow .sbody span{display:block; font-size:16px; line-height:1.65; color:var(--muted); margin-top:2px; max-width:68ch}
+  .srow .shrs{font-size:13px; font-weight:700; color:var(--sienna-700); background:var(--sand-100); border:1px solid var(--sand-300); border-radius:6px; padding:2px 10px; white-space:nowrap}
 
-  :focus-visible{outline:3px solid #f3d9b8; outline-offset:2px; border-radius:4px}
+  /* callout & tip boxes (guide: badge-labeled) */
+  .call{position:relative; border:1px solid var(--sage); background:var(--sage-100);
+    border-radius:10px; padding:20px 18px 14px; margin:28px 0 16px; font-size:16px; line-height:1.65}
+  .call .ctag{position:absolute; top:-12px; left:14px; background:var(--sage); color:#fff;
+    font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; padding:3px 11px; border-radius:5px}
+  .call.guard{border-color:var(--sienna); background:#FBF1E9}
+  .call.guard .ctag{background:var(--sienna)}
+  .call ul{margin:6px 0 0; padding-left:20px}
+  .call li{margin:4px 0}
+  ol.rules{margin:8px 0 0; padding-left:22px}
+  ol.rules li{margin:5px 0; font-size:16px; line-height:1.65}
+  ol.rules li::marker{color:var(--sienna); font-weight:700}
+
+  /* sequence band */
+  .seq{background:var(--ink); border-radius:var(--radius); padding:20px 22px; color:var(--off); box-shadow:var(--shadow); margin:14px 0 10px}
+  .seqrow{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline; padding:10px 0; border-bottom:1px solid rgba(250,246,240,.14)}
+  .seqrow:last-child{border-bottom:none}
+  .seqk{flex:none; font-size:11px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--sand); border:1px solid rgba(201,165,124,.55); border-radius:6px; padding:3px 10px; min-width:118px; text-align:center}
+  .seqv{font-size:16px; color:#F2ECE2}
+  .seqv .arr{color:var(--sienna); font-weight:700; padding:0 2px}
+
+  /* tables */
+  .tablewrap{overflow-x:auto; border:1px solid var(--line); border-radius:var(--radius); background:var(--card); box-shadow:var(--shadow); margin:12px 0 16px}
+  table{border-collapse:collapse; width:100%; font-size:16px; min-width:560px}
+  th{background:var(--ink); color:var(--off); text-align:left; font-weight:600; font-size:13px; letter-spacing:.05em; text-transform:uppercase; padding:10px 15px}
+  td{padding:11px 15px; border-top:1px solid var(--line-soft); vertical-align:top; line-height:1.6}
+  td b{color:var(--ink)}
+
+  /* tag chips + stacking */
+  .tchip{display:inline-block; font-size:13px; font-weight:600; color:var(--sienna-700); background:var(--sand-100); border:1px solid var(--sand-300); border-radius:999px; padding:4px 12px; white-space:nowrap}
+  .trow{flex-wrap:wrap}
+  .trow .tchip{flex:none; min-width:130px; text-align:center}
+  .trow p{margin:0; flex:1; min-width:250px; font-size:16px; line-height:1.65}
+  .trow p b{color:var(--ink)}
+  .stack{display:grid; gap:14px; margin:14px 0}
+  @media(min-width:720px){.stack{grid-template-columns:1fr 1fr}}
+  .scard{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:17px 20px; box-shadow:var(--shadow)}
+  .scard h4{font-family:var(--serif); margin:0 0 3px; font-size:1.1rem; color:var(--ink); font-weight:600}
+  .scard .fline{font-size:14px; color:var(--muted)}
+  .scard .chipsrow{display:flex; gap:6px; flex-wrap:wrap; margin:10px 0}
+  .scard .read{font-size:15px; line-height:1.6; color:var(--ink); border-top:1px dashed var(--line); padding-top:10px; margin-top:10px}
+  .scard .read b{color:var(--sienna-700)}
+  .tbd{display:inline-block; font-size:10.5px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:#6B4E22; background:var(--sand-300); border-radius:4px; padding:2px 8px; vertical-align:1px}
+
+  /* footer (guide: sand band, sienna top rule) */
+  footer{background:var(--sand-300); border-top:2px solid var(--sienna); margin-top:56px; padding:30px 0 64px; color:#4A3B28; font-size:15px}
+  footer .wrap{display:flex; flex-wrap:wrap; gap:8px 16px; align-items:center; justify-content:space-between}
+  footer .v{font-family:var(--serif); font-weight:700; color:var(--ink)}
 
   /* back to top */
-  #toTop{position:fixed; right:22px; bottom:22px; width:46px; height:46px; border-radius:50%;
-    background:var(--blue); color:#fff; border:none; cursor:pointer; display:grid; place-items:center;
-    box-shadow:0 6px 18px rgba(232,112,15,.30); opacity:0; transform:translateY(12px); pointer-events:none; z-index:60;
+  #toTop{position:fixed; right:22px; bottom:22px; width:48px; height:48px; border-radius:50%;
+    background:var(--sienna); color:#fff; border:none; cursor:pointer; display:grid; place-items:center; font-size:18px;
+    box-shadow:0 6px 18px rgba(193,90,43,.35); opacity:0; transform:translateY(12px); pointer-events:none; z-index:60;
     transition:opacity .25s ease, transform .25s ease, background .2s ease}
   #toTop.show{opacity:1; transform:translateY(0); pointer-events:auto}
-  #toTop:hover{background:var(--blue-deep); transform:translateY(-3px)}
-  @media print{#toTop{display:none}}
+  #toTop:hover{background:var(--sienna-600); transform:translateY(-3px)}
+  #toTop:active{background:var(--sienna-700)}
+
+  @media(max-width:640px){
+    .wrap{padding:0 18px}
+    section{padding:30px 0}
+    h2.sec-title{font-size:1.4rem}
+  }
   @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto} *{transition:none!important}}
   @media print{
-    nav.toc,.eyebrow{display:none}
-    body{background:#fff} .layout{grid-template-columns:1fr}
-    .chip,.ocard,.ledger,.job,.col,.steps-box,.eflow,.node{box-shadow:none}
+    #toTop, nav.topnav{display:none}
+    body{background:#fff; font-size:12pt}
+    .chip,.ocard,.steps,.trows,.job,.seq,.call,.tablewrap,.scard,.eflow,.steps-box,.col,.node,.pbanner{box-shadow:none}
+    .seq,.eflow,.steps-box{background:#fff; color:var(--ink); border:1px solid #ddd}
+    .seqv,.estep .t,.steps-box li{color:var(--ink)}
+    .pbanner{-webkit-print-color-adjust:exact; print-color-adjust:exact}
     section{break-inside:avoid}
   }
-</style>
+
+  /* tabs */
+  .tab{display:none}
+  .tab.active{display:block}
+  .pbanner.secondary{background:var(--sand-300)}
+  .pbanner.secondary .plabel{color:var(--sienna-700)}
+  .pbanner.secondary h2.ptitle{color:var(--ink)}
+  .pbanner.secondary::after{background:var(--sienna); opacity:.8}
+  nav.topnav a{font-size:13.5px; padding:15px 13px 13px}
+
+  </style>
 </head>
 <body>
 
 <header class="masthead">
   <div class="wrap">
-    <span class="eyebrow">Project Requirements &amp; Build Plan</span>
+    <span class="eyebrow">Requirements · Execution Plan · Taxonomy · SOP · Templates</span>
     <h1>My Expat Healthcare</h1>
-    <p class="lede">A trusted, curated guide to expat-friendly healthcare — built to run lean, and to grow across borders.</p>
+    <p class="lede">The full working document — the project requirements and build plan, the execution plan per line of support, the contact taxonomy proposal for sign-off, the contact process SOP outline, and the template list proposal.</p>
     <div class="meta">
       <div class="chip"><span class="k">Prepared for</span><span class="v">Alicia D. Smith LLC</span></div>
       <div class="chip"><span class="k">Prepared by</span><span class="v">Rogers Hollow LLC</span></div>
@@ -207,27 +261,24 @@
   </div>
 </header>
 
+<nav class="topnav" aria-label="Service lines">
+  <div class="wrap">
+    <a href="#tab-overview" class="active">Overview</a>
+    <a href="#tab-contacts">Contact Management &amp; Process Development</a>
+    <a href="#tab-templates">Email &amp; Document Template Development</a>
+    <a href="#tab-ongoing">Ongoing Administrative &amp; CRM Support</a>
+  </div>
+</nav>
+
+
 <div class="wrap layout">
-
-  <nav class="toc" aria-label="On this page">
-    <div class="toc-card">
-      <h2>On this page</h2>
-      <ol>
-        <li><a href="#opportunity">The opportunity</a></li>
-        <li><a href="#building">What we're building</a></li>
-        <li><a href="#engine">The interview engine</a></li>
-        <li><a href="#plan">The build plan</a></li>
-        <li><a href="#nownext">What's included &amp; next</a></li>
-        <li><a href="#begin">What we need from you</a></li>
-        <li><a href="#next">Next steps</a></li>
-      </ol>
-    </div>
-  </nav>
-
   <main>
+  <div class="tab active" id="tab-overview">
+  <div class="part">
+    <div class="pbanner"><div class="plabel">Overview</div><h2 class="ptitle">Project Requirements &amp; Build Plan</h2></div>
 
     <section id="opportunity">
-      <div class="sec-head"><div class="num">1</div><h2 class="sec-title">The opportunity</h2></div>
+      <div class="sec-head"><div class="num">01</div><h2 class="sec-title">The opportunity</h2></div>
       <p class="lead-line">Finding trustworthy care abroad is hard. That's the business.</p>
       <p class="lead">When you relocate, few things matter more — or are harder to sort out — than healthcare you can trust. Which doctors speak English? Who genuinely understands expat patients, insurance, and the small anxieties of being new? My Expat Healthcare answers that with a vetted, curated guide, supported by helpful content and a personal advisory touch.</p>
       <p>Panama is an ideal first market. It's one of the world's most established retiree destinations, private care in the main hubs is delivered by English-speaking, often U.S.-trained doctors, and internationally affiliated hospitals are the norm. The audience already exists and is actively looking — MEH's job is to surface and vouch for the <em>expat-friendly</em> providers among them.</p>
@@ -240,7 +291,7 @@
     </section>
 
     <section id="building">
-      <div class="sec-head"><div class="num">2</div><h2 class="sec-title">What we're building</h2></div>
+      <div class="sec-head"><div class="num">02</div><h2 class="sec-title">What we're building</h2></div>
       <p class="lead-line">A brand, an operating system, and a content engine.</p>
       <p class="muted">Everything is designed to be low-maintenance for a lean founder and repeatable as new countries come online.</p>
       <div class="ogrid">
@@ -252,7 +303,7 @@
     </section>
 
     <section id="engine">
-      <div class="sec-head"><div class="num">3</div><h2 class="sec-title">The interview engine</h2></div>
+      <div class="sec-head"><div class="num">03</div><h2 class="sec-title">The interview engine</h2></div>
       <p class="lead-line">One conversation, working four ways.</p>
       <p class="lead">Your instinct to interview people is the most efficient asset in this plan. Each recorded conversation becomes a full content cycle — and provider interviews quietly do the relationship-building and data-gathering at the same time.</p>
       <div class="eflow" aria-label="Interview content workflow">
@@ -269,7 +320,7 @@
     </section>
 
     <section id="plan">
-      <div class="sec-head"><div class="num">4</div><h2 class="sec-title">The build plan</h2></div>
+      <div class="sec-head"><div class="num">04</div><h2 class="sec-title">The build plan</h2></div>
       <p class="lead-line">How we get there.</p>
       <p class="lead muted">Sequenced by dependency, with phases overlapping. Timing anchors to calendar dates once your relocation date is set.</p>
       <div class="rail">
@@ -326,7 +377,7 @@
     </section>
 
     <section id="nownext">
-      <div class="sec-head"><div class="num">5</div><h2 class="sec-title">What's included &amp; next</h2></div>
+      <div class="sec-head"><div class="num">05</div><h2 class="sec-title">What's included &amp; next</h2></div>
       <p class="lead-line">What's included — and where we can grow.</p>
       <div class="cols">
         <div class="col">
@@ -350,11 +401,11 @@
           </ul>
         </div>
       </div>
-      <p class="note">My Expat Healthcare is an informational guide and advisory — not a medical provider. We recommend a local legal review of disclaimers and data-privacy practices before launch.</p>
+      <p class="note">My Expat Healthcare is an informational guide and advisory — not a medical provider.</p>
     </section>
 
     <section id="begin">
-      <div class="sec-head"><div class="num">6</div><h2 class="sec-title">What we need from you</h2></div>
+      <div class="sec-head"><div class="num">06</div><h2 class="sec-title">What we need from you</h2></div>
       <p class="lead-line">To begin.</p>
       <ul class="needs">
         <li><span class="what">Zoho admin access</span> — <span class="why">added as an admin user (no password sharing).</span></li>
@@ -362,12 +413,11 @@
         <li><span class="what">The presentation to refine</span> — <span class="why">your current deck.</span></li>
         <li><span class="what">A seed list</span> — <span class="why">contacts, providers, or interview targets in Panama.</span></li>
         <li><span class="what">Your first hub</span> — <span class="why">Panama City, Boquete, Coronado, or David.</span></li>
-        <li><span class="what">A legal review owner</span> — <span class="why">for disclaimers and data privacy.</span></li>
       </ul>
     </section>
 
     <section id="next">
-      <div class="sec-head"><div class="num">7</div><h2 class="sec-title">Next steps</h2></div>
+      <div class="sec-head"><div class="num">07</div><h2 class="sec-title">Next steps</h2></div>
       <div class="steps-box">
         <ol>
           <li>Review and approve this plan.</li>
@@ -379,12 +429,422 @@
       </div>
     </section>
 
+    <section id="today">
+      <div class="sec-head"><div class="num">08</div><h2 class="sec-title">Can start today — no blockers</h2></div>
+      <p class="muted">None of these need Zoho access or the brand tone. Doing them now means the blocked hours start moving the moment access lands.</p>
+      <div class="ogrid">
+        <div class="ocard"><span class="n">✓</span><h4>Template list proposal</h4><p>Draft which 10 templates to build, for Alicia's sign-off. (Templates tab.)</p></div>
+        <div class="ocard"><span class="n">✓</span><h4>Contact taxonomy proposal</h4><p>Categories, tags, and required fields — so cleanup can start immediately on access. (Contact Management tab.)</p></div>
+        <div class="ocard"><span class="n">✓</span><h4>Document template drafts</h4><p>Pre-write letterhead, provider one-pager, and welcome pack in Docs — the style guide covers the visual side; only email copy waits on tone.</p></div>
+        <div class="ocard"><span class="n">✓</span><h4>Contact-process SOP outline</h4><p>Skeleton of the intake and maintenance SOP, ready to finalize during setup. (Contact Management tab.)</p></div>
+      </div>
+    </section>
+
+    <section id="seq">
+      <div class="sec-head"><div class="num">09</div><h2 class="sec-title">Sequence at a glance</h2></div>
+      <div class="seq" aria-label="Sequence overview">
+        <div class="seqrow"><span class="seqk">Today</span><span class="seqv">template list · taxonomy draft · doc drafts · SOP outline <span class="muted">(while blocked)</span></span></div>
+        <div class="seqrow"><span class="seqk">Zoho access</span><span class="seqv">CRM setup, Days 1–3 <span class="arr">→</span> ongoing support begins</span></div>
+        <div class="seqrow"><span class="seqk">Brand tone</span><span class="seqv">template copywriting <span class="arr">→</span> review <span class="arr">→</span> load into Zoho</span></div>
+      </div>
+      <p class="muted">Zoho access unblocks the CRM setup, ongoing support, and the template skeletons. Alicia's tone only blocks the template copy — everything else keeps moving.</p>
+    </section>
+  </div>
+  </div>
+  <div class="tab" id="tab-contacts">
+  <div class="part">
+    <div class="pbanner"><div class="plabel">Service line · 5 hrs one-time</div><h2 class="ptitle">Contact Management &amp; Process Development</h2></div>
+
+    <section id="ws1">
+      <div class="sec-head"><div class="num">01</div><h2 class="sec-title">CRM — Zoho Contact Management &amp; Process</h2></div>
+      <div class="ws-meta"><span class="tag dark">Budget: 5 hrs · one-time</span><span class="tag">Trigger: Zoho access granted</span></div>
+      <div class="steps">
+        <div class="srow"><span class="sn">1</span><div class="sbody"><b>Audit &amp; backup</b><span>Confirm active Zoho apps and roles; export existing contacts as a backup (stored in the RH Team drive) before touching anything; assess volume, duplicates, field usage, and gaps.</span></div><span class="shrs">~1 hr</span></div>
+        <div class="srow"><span class="sn">2</span><div class="sbody"><b>Taxonomy sign-off</b><span>Finalize the pre-drafted taxonomy (below in this tab) — quick OK from Alicia before mass edits.</span></div><span class="shrs">~0.5 hr</span></div>
+        <div class="srow"><span class="sn">3</span><div class="sbody"><b>Cleanup &amp; categorize</b><span>Dedupe, normalize names/emails/phones, fill or flag gaps, apply tags per the approved taxonomy.</span></div><span class="shrs">~2.5 hrs</span></div>
+        <div class="srow"><span class="sn">4</span><div class="sbody"><b>Standardized process</b><span>One-page SOP: how a new contact enters, required fields, tagging rules, who maintains, and the update cadence.</span></div><span class="shrs">~0.5 hr</span></div>
+        <div class="srow"><span class="sn">5</span><div class="sbody"><b>Handoff</b><span>Before/after summary to Cherry — counts, structure, and the SOP link.</span></div><span class="shrs">~0.5 hr</span></div>
+      </div>
+      <div class="call"><span class="ctag">Outputs</span>Clean categorized contact base · backup export · one-page contact SOP.</div>
+      <div class="call guard"><span class="ctag">Guardrails</span>
+        <ul>
+          <li>Backup export first — mass edits are hard to undo.</li>
+          <li>Taxonomy approved before applying it.</li>
+          <li>If the audit reveals volume that won't fit 5 hrs, flag Cherry <em>before</em> burning them.</li>
+        </ul>
+      </div>
+    </section>
+  </div>
+
+  <div class="part">
+    <div class="pbanner secondary"><div class="plabel">For sign-off</div><h2 class="ptitle">Contact Taxonomy Proposal</h2></div>
+
+    <section id="tax-place">
+      <div class="sec-head"><div class="num">02</div><h2 class="sec-title">Where this lives in Zoho</h2></div>
+      <p>The SOW names <b>Zoho Contacts</b>, but the standalone Zoho Contacts app is a simple address book: no custom fields, no tags, no saved views. The taxonomy below needs those.</p>
+      <div class="call"><span class="ctag">Recommendation</span>Build in the <b>Zoho CRM Contacts module</b> if the account has CRM (the SOW's social scope references Zoho CRM, so it likely does). CRM gives us custom fields, tags, saved views, mass update, and built-in dedupe — everything this plan uses.</div>
+      <div class="call guard"><span class="ctag">Fallback</span>If only the Contacts app is available, the taxonomy compresses into default fields + groups (types become groups, extras go into Notes). Workable, but capped. Confirm on day 1 of access.</div>
+    </section>
+
+    <section id="tax-types">
+      <div class="sec-head"><div class="num">03</div><h2 class="sec-title">Contact types — one field, four values</h2></div>
+      <p class="muted">Every contact gets exactly one <b>Contact Type</b>. Keeping it to four makes every later view, filter, and report clean — sub-flavors are handled by fields and tags, not more types.</p>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Type</th><th>Who</th><th>Examples</th></tr></thead>
+        <tbody>
+          <tr><td><b>Provider</b></td><td>Healthcare providers who could be listed or referenced</td><td>Doctors, dentists, clinics, specialists, hospitals</td></tr>
+          <tr><td><b>Expat Lead</b></td><td>The customers — expats/retirees who inquire or engage</td><td>Newsletter signups, inquiry emails, interview-audience contacts</td></tr>
+          <tr><td><b>Partner</b></td><td>Businesses MEH works with or refers to</td><td>Insurers, relocation services, visa/legal, media contacts</td></tr>
+          <tr><td><b>Other</b></td><td>Everyone else worth keeping</td><td>Vendors, misc. — refined by tags</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <section id="tax-fields">
+      <div class="sec-head"><div class="num">04</div><h2 class="sec-title">Field schema</h2></div>
+      <p><b>Universal fields</b> — every contact:</p>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Field</th><th>Format / values</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td><b>First / Last Name</b></td><td>Proper Case</td><td></td></tr>
+          <tr><td><b>Email</b></td><td>lowercase</td><td>Primary dedupe key</td></tr>
+          <tr><td><b>Phone</b></td><td>E.164 with country code (e.g., +507…)</td><td>One consistent format account-wide</td></tr>
+          <tr><td><b>Contact Type</b></td><td>Provider / Expat Lead / Partner / Other</td><td>Single-select, required</td></tr>
+          <tr><td><b>Country</b></td><td>Default: Panama</td><td></td></tr>
+          <tr><td><b>Hub</b></td><td>Panama City / Boquete / Coronado / David / Other (PA) / Outside Panama</td><td>Single-select</td></tr>
+          <tr><td><b>Source</b></td><td>Referral / Website / Social / Interview / Event / Research / Other</td><td>Single-select</td></tr>
+          <tr><td><b>Status</b></td><td>Active / Inactive / Needs Info / Do Not Contact</td><td>Single-select</td></tr>
+          <tr><td><b>Marketing Consent</b></td><td>Yes / No / Unknown</td><td>Light privacy hygiene for newsletter/template sends</td></tr>
+          <tr><td><b>Last Verified</b></td><td>Date</td><td>Manually stamped when info is confirmed</td></tr>
+          <tr><td><b>Notes</b></td><td>Free text</td><td>Dated entries, newest on top</td></tr>
+        </tbody>
+      </table></div>
+      <div class="jobs">
+        <div class="job"><b>Provider extras</b><span>Clinic/Practice (Company) · Specialty · Languages Spoken (English / Spanish / Other) · Insurance Accepted (e.g., Cigna, Allianz, local, cash) · Website</span></div>
+        <div class="job"><b>Expat Lead extras</b><span>Inquiry Topic (Find a doctor / Insurance / General / Other) · Lead Stage (New / Replied / Active / Closed)</span></div>
+        <div class="job"><b>Partner extras</b><span>Company · Partner Category (Insurance / Legal &amp; Visa / Relocation / Media / Other)</span></div>
+      </div>
+      <div class="call guard"><span class="ctag">Scope note</span>This categorizes providers — it deliberately does <b>not</b> build the full vetting/directory workflow, which is flagged as a future add-on in the plan.</div>
+    </section>
+
+    <section id="tax-tags">
+      <div class="sec-head"><div class="num">05</div><h2 class="sec-title">Tags — why each works, and how they stack</h2></div>
+      <p class="muted"><b>Rule of thumb:</b> <em>fields</em> hold single-truth, reportable attributes; <em>tags</em> hold cross-cutting flags that can stack. In Zoho CRM, tags are additive labels on a record, and saved views can combine tag + field criteria (e.g., tag AND type AND hub) — that combination is what makes stacking useful. Tags are only created deliberately; a sprawling tag list is how databases rot.</p>
+
+      <p><b>Why each starting tag earns its place:</b></p>
+      <div class="trows">
+        <div class="trow"><span class="tchip">Interview Guest</span><p><b>Cuts across every type.</b> Guests can be Providers, Expat Leads, or Partners — so it can't be a Contact Type or a type-specific field. As a tag, one click gives the full guest history: who's been on the show, who's booked, who to thank and follow up. It's the bridge between the contact base and the content engine.</p></div>
+        <div class="trow"><span class="tchip">Newsletter</span><p><b>Intent, separated from permission.</b> The tag marks who <em>wants</em> the newsletter; the Marketing Consent field marks who legally <em>may</em> be emailed. The actual send list is the saved view "tag = Newsletter AND Consent = Yes." If consent is withdrawn, the interest signal isn't lost — flip the field, keep the tag.</p></div>
+        <div class="trow"><span class="tchip">VIP</span><p><b>A priority lens, not a category.</b> A flagship provider, a high-value referral partner, an influential expat — VIPs exist in every type. The tag drives service level (faster turnaround in ongoing support, first pick for interviews) without ever distorting the type-based reporting.</p></div>
+        <div class="trow"><span class="tchip">Follow-up</span><p><b>A to-do queue with zero extra modules.</b> Filtering by this tag turns the contact base into today's action list — no pipeline or task system built (that's future scope). Do the thing, remove the tag. It gives the monthly 5 support hours a working queue for free.</p></div>
+        <div class="trow"><span class="tchip">Needs Info</span><p><b>Data quality made visible.</b> Applied during cleanup and at entry to anything below the minimum-viable-contact standard. The monthly hygiene pass is literally "open the Needs Info view and chase." And the count is a health metric — trending down means the database is getting better.</p></div>
+      </div>
+
+      <p><b>How tags stack — one contact, several lenses:</b></p>
+      <div class="stack">
+        <div class="scard">
+          <h4>Dr. Ramos <span class="muted">· example</span></h4>
+          <div class="fline">Type: Provider · Hub: Panama City · Specialty: Cardiology · Consent: Yes</div>
+          <div class="chipsrow"><span class="tchip">Interview Guest</span><span class="tchip">Newsletter</span><span class="tchip">Follow-up</span></div>
+          <div class="read"><b>Read as:</b> a Panama City cardiologist who's been on the show, wants the newsletter, and has an open action (send her the episode link). When that's done, <em>Follow-up</em> comes off — the other two stay.</div>
+        </div>
+        <div class="scard">
+          <h4>Margaret T. <span class="muted">· example</span></h4>
+          <div class="fline">Type: Expat Lead · Hub: Boquete · Stage: Active · Consent: Yes</div>
+          <div class="chipsrow"><span class="tchip">Newsletter</span><span class="tchip">VIP</span><span class="tchip">Needs Info</span></div>
+          <div class="read"><b>Read as:</b> an engaged Boquete retiree on the newsletter who has referred two friends (VIP) — but we're missing her phone number, so she surfaces in the monthly Needs Info chase too.</div>
+        </div>
+      </div>
+      <div class="call"><span class="ctag">Stacked views</span>Combining tags with fields is where the value compounds — e.g., <b>Type: Provider + Hub: Panama City + tag: Interview Guest</b> = every Panama City provider who's appeared on the show, ready-made for a content roundup or a re-engagement send.</div>
+    </section>
+
+    <section id="tax-conv">
+      <div class="sec-head"><div class="num">06</div><h2 class="sec-title">Data-entry conventions</h2></div>
+      <ol class="rules">
+        <li><b>One record per person.</b> Clinics/companies live in the Company field (or Accounts, if CRM) — never as a "person" contact.</li>
+        <li><b>Search before create.</b> Check email first; no blind new records.</li>
+        <li><b>Minimum viable contact</b> at creation: Name + (Email or Phone) + Contact Type + Source. No exceptions — a contact without these is a <em>Needs Info</em> from birth.</li>
+        <li>Names Proper Case, emails lowercase, phones E.164.</li>
+        <li>Changes are <b>edits to the existing record</b> (never a duplicate), with a dated line in Notes for anything material.</li>
+      </ol>
+    </section>
+
+    <section id="tax-clean">
+      <div class="sec-head"><div class="num">07</div><h2 class="sec-title">Cleanup sequence for existing contacts</h2></div>
+      <div class="ws-meta"><span class="tag">On access</span></div>
+      <div class="steps">
+        <div class="srow"><span class="sn">1</span><div class="sbody"><b>Backup export first</b><span>Full CSV before any edit, stored in the RH Team drive. Non-negotiable.</span></div></div>
+        <div class="srow"><span class="sn">2</span><div class="sbody"><b>Dedupe</b><span>Exact email matches merged first, then fuzzy name+phone matches reviewed manually.</span></div></div>
+        <div class="srow"><span class="sn">3</span><div class="sbody"><b>Normalize</b><span>Names, email case, phone formats.</span></div></div>
+        <div class="srow"><span class="sn">4</span><div class="sbody"><b>Categorize</b><span>Assign Contact Type; apply Hub/Source where known.</span></div></div>
+        <div class="srow"><span class="sn">5</span><div class="sbody"><b>Flag gaps</b><span>Anything missing minimum fields gets <em>Needs Info</em> (chased later, not blocking).</span></div></div>
+        <div class="srow"><span class="sn">6</span><div class="sbody"><b>Report</b><span>Before/after counts to Cherry — total, merged, categorized, flagged.</span></div></div>
+      </div>
+    </section>
+
+    <section id="tax-process">
+      <div class="sec-head"><div class="num">08</div><h2 class="sec-title">Standardized process for future contacts</h2></div>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Rule</th><th>Detail</th></tr></thead>
+        <tbody>
+          <tr><td><b>Entry window</b></td><td>New contacts entered within 2 business days of first touch</td></tr>
+          <tr><td><b>Intake channels</b></td><td>Inquiry emails · interview bookings · referrals · social DMs · events</td></tr>
+          <tr><td><b>Who enters</b></td><td>RH Team (via the email request channel); anyone else entering follows the same minimum-viable-contact rule</td></tr>
+          <tr><td><b>Monthly hygiene</b></td><td>Within the ongoing 5 hrs/mo: dupe sweep, <em>Needs Info</em> chase, format check</td></tr>
+          <tr><td><b>Quarterly refresh</b></td><td>Providers' <em>Last Verified</em> reviewed and re-stamped</td></tr>
+          <tr><td><b>Views to maintain</b></td><td>Providers by Hub · Active Leads · Needs Info · Newsletter (Consent = Yes)</td></tr>
+        </tbody>
+      </table></div>
+      <p class="muted">This table becomes the backbone of the one-page SOP delivered at handoff.</p>
+    </section>
+
+    <section id="tax-signoff">
+      <div class="sec-head"><div class="num">09</div><h2 class="sec-title">What needs sign-off</h2></div>
+      <div class="tablewrap"><table>
+        <thead><tr><th>#</th><th>Decision</th><th>Proposed</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td><b>The four contact types</b></td><td>Provider / Expat Lead / Partner / Other</td></tr>
+          <tr><td>2</td><td><b>Hub list values</b></td><td>Panama City, Boquete, Coronado, David, Other (PA), Outside Panama</td></tr>
+          <tr><td>3</td><td><b>Required-at-entry fields</b></td><td>Name + Email/Phone + Type + Source</td></tr>
+          <tr><td>4</td><td><b>Starting tag set</b></td><td>Interview Guest, Newsletter, VIP, Follow-up, Needs Info</td></tr>
+          <tr><td>5</td><td><b>Conventions</b></td><td>E.164 phones, lowercase emails, one-record-per-person</td></tr>
+          <tr><td>6</td><td><b>Placement</b></td><td>Zoho CRM Contacts module (confirm on access; Contacts-app fallback noted)</td></tr>
+        </tbody>
+      </table></div>
+      <p>A "yes / adjust" <b>from Alicia</b> on these six lets cleanup start the same day access is granted.</p>
+    </section>
+  </div>
+
+  <div class="part">
+    <div class="pbanner secondary"><div class="plabel">Outline</div><h2 class="ptitle">Contact Process SOP</h2></div>
+
+    <section id="sop-roles">
+      <div class="sec-head"><div class="num">10</div><h2 class="sec-title">Roles</h2></div>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Role</th><th>Who</th><th>Does</th></tr></thead>
+        <tbody>
+          <tr><td><b>Client</b></td><td>Alicia — CEO, My Expat Healthcare</td><td><b>Sign-off authority on all MEH decisions</b>; brand inputs; all RH ↔ Alicia communication runs through email</td></tr>
+          <tr><td><b>RH leadership</b></td><td>Justin (CEO) &amp; Cherry (Manager)</td><td>RH-internal oversight — time logging, hours, and escalations</td></tr>
+          <tr><td><b>Maintainer</b></td><td>RH Team</td><td>Enters, cleans, maintains; runs monthly hygiene + quarterly verification</td></tr>
+          <tr><td><b>Requesters</b></td><td>Alicia, Cherry, Justin</td><td>Send adds/updates through the email channel</td></tr>
+          <tr><td><b>Direct editors</b></td><td><span class="tbd">To confirm</span> — ideally RH Team + Alicia only</td><td>Fewer hands editing = cleaner data</td></tr>
+        </tbody>
+      </table></div>
+      <div class="call"><span class="ctag">Communication</span>RH ↔ Alicia runs through <b>Email</b> (the single client channel) · <b>Project update every Monday</b>, sent via email.</div>
+      <div class="call"><span class="ctag">Decision routing</span>Anything <b>MEH-facing</b> (taxonomy, templates, editors, turnaround) is <b>Alicia's sign-off</b> · anything <b>RH-internal</b> (time logging, hours, staffing) sits with <b>RH management</b>.</div>
+    </section>
+
+    <section id="sop-life">
+      <div class="sec-head"><div class="num">11</div><h2 class="sec-title">The lifecycle at a glance</h2></div>
+      <div class="seq" aria-label="Contact lifecycle">
+        <div class="seqrow"><span class="seqk">Lifecycle</span><span class="seqv">Capture <span class="arr">→</span> Search <span class="arr">→</span> Enter <span class="arr">→</span> Categorize <span class="arr">→</span> Use <span class="arr">→</span> Maintain <span class="muted">(monthly)</span> <span class="arr">→</span> Verify <span class="muted">(quarterly)</span></span></div>
+      </div>
+      <p class="muted">Every procedure below is one stop on this line.</p>
+    </section>
+
+    <section id="sop-add">
+      <div class="sec-head"><div class="num">12</div><h2 class="sec-title">Procedure A — Adding a new contact</h2></div>
+      <div class="ws-meta"><span class="tag">Within 2 business days of first touch</span></div>
+      <div class="steps">
+        <div class="srow"><span class="sn">1</span><div class="sbody"><b>Search first</b><span>By email, then name. If the record exists → Procedure B. Never create blind.</span></div></div>
+        <div class="srow"><span class="sn">2</span><div class="sbody"><b>Create with the minimum viable contact</b><span>Name + (Email or Phone) + Contact Type + Source. No exceptions.</span></div></div>
+        <div class="srow"><span class="sn">3</span><div class="sbody"><b>Complete what's known</b><span>Hub, Marketing Consent, and the type extras (Provider: specialty, languages, insurance · Lead: inquiry topic, stage · Partner: category).</span></div></div>
+        <div class="srow"><span class="sn">4</span><div class="sbody"><b>Formats</b><span>Names Proper Case, emails lowercase, phones E.164 (+507…).</span></div></div>
+        <div class="srow"><span class="sn">5</span><div class="sbody"><b>Tags per the taxonomy rules</b><span>Only from the approved set (Interview Guest / Newsletter / VIP / Follow-up / Needs Info).</span></div></div>
+        <div class="srow"><span class="sn">6</span><div class="sbody"><b>Missing minimums?</b><span>Tag <em>Needs Info</em> — enter anyway, chase later.</span></div></div>
+        <div class="srow"><span class="sn">7</span><div class="sbody"><b>Context note</b><span>One dated line in Notes (e.g., "2026-08 — met at expat meetup, asked about dentists in Boquete").</span></div></div>
+      </div>
+    </section>
+
+    <section id="sop-update">
+      <div class="sec-head"><div class="num">13</div><h2 class="sec-title">Procedure B — Updating an existing contact</h2></div>
+      <div class="steps">
+        <div class="srow"><span class="sn">1</span><div class="sbody"><b>Edit the existing record</b><span>Never create a duplicate.</span></div></div>
+        <div class="srow"><span class="sn">2</span><div class="sbody"><b>Date the change</b><span>Material changes get a dated Notes line.</span></div></div>
+        <div class="srow"><span class="sn">3</span><div class="sbody"><b>Consent changes are the highest-priority edit</b><span>Flip the Marketing Consent field the same day.</span></div></div>
+        <div class="srow"><span class="sn">4</span><div class="sbody"><b>"Stop contacting me"</b><span>Status: <em>Do Not Contact</em>, same day, dated note.</span></div></div>
+        <div class="srow"><span class="sn">5</span><div class="sbody"><b>Moved, changed clinics, retired?</b><span>Update fields + note — the history stays in Notes.</span></div></div>
+      </div>
+    </section>
+
+    <section id="sop-request">
+      <div class="sec-head"><div class="num">14</div><h2 class="sec-title">Procedure C — Requesting a change (for non-editors)</h2></div>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Item</th><th>Detail</th></tr></thead>
+        <tbody>
+          <tr><td><b>Channel</b></td><td><b>Email</b> — the confirmed single channel between RH and Alicia</td></tr>
+          <tr><td><b>A request includes</b></td><td>Who the contact is · what's new or changed · where the info came from</td></tr>
+          <tr><td><b>Turnaround</b></td><td><b>1 hour</b> target · <b>24 hours</b> at the latest</td></tr>
+          <tr><td><b>Logging</b></td><td>Logged against the monthly 5 support hours</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <section id="sop-monthly">
+      <div class="sec-head"><div class="num">15</div><h2 class="sec-title">Procedure D — Monthly hygiene pass</h2></div>
+      <div class="ws-meta"><span class="tag">Once a month · within the ongoing 5 hrs</span></div>
+      <div class="steps">
+        <div class="srow"><span class="sn">1</span><div class="sbody"><b>Dedupe sweep</b><span>Email exact matches; fuzzy name+phone reviewed by hand.</span></div></div>
+        <div class="srow"><span class="sn">2</span><div class="sbody"><b>Needs Info chase</b><span>Open the view; chase and complete what's chaseable.</span></div></div>
+        <div class="srow"><span class="sn">3</span><div class="sbody"><b>Format spot-check</b><span>On the month's new entries.</span></div></div>
+        <div class="srow"><span class="sn">4</span><div class="sbody"><b>Views check</b><span>Providers by Hub · Active Leads · Needs Info · Newsletter — still working as expected.</span></div></div>
+        <div class="srow"><span class="sn">5</span><div class="sbody"><b>Mini-report</b><span>Added / updated / merged counts and Needs Info trend fold into the Monday update to Alicia; hours used are logged with RH management.</span></div></div>
+      </div>
+    </section>
+
+    <section id="sop-quarterly">
+      <div class="sec-head"><div class="num">16</div><h2 class="sec-title">Procedure E — Quarterly provider verification</h2></div>
+      <div class="steps">
+        <div class="srow"><span class="sn">1</span><div class="sbody"><b>Filter</b><span>Providers with <em>Last Verified</em> older than ~90 days.</span></div></div>
+        <div class="srow"><span class="sn">2</span><div class="sbody"><b>Confirm the essentials</b><span>Still practicing, contact info current, languages/insurance as recorded.</span></div></div>
+        <div class="srow"><span class="sn">3</span><div class="sbody"><b>Re-stamp Last Verified</b><span>Note any changes.</span></div></div>
+        <div class="srow"><span class="sn">4</span><div class="sbody"><b>Unreachable or closed</b><span>Status: <em>Inactive</em> with a dated note. Never delete — deletion loses history and can't be undone; Inactive keeps the record honest.</span></div></div>
+      </div>
+    </section>
+
+    <section id="sop-dodont">
+      <div class="sec-head"><div class="num">17</div><h2 class="sec-title">Do / Don't quick reference</h2></div>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Do</th><th>Don't</th></tr></thead>
+        <tbody>
+          <tr><td>Search before creating</td><td>Create duplicates "to be safe"</td></tr>
+          <tr><td>One record per person; companies in the Company field</td><td>Store a clinic as a "person"</td></tr>
+          <tr><td>Flip consent changes same-day</td><td>Sit on a Do Not Contact request</td></tr>
+          <tr><td>Mark dead records <em>Inactive</em></td><td>Delete records</td></tr>
+          <tr><td>Use only approved tags</td><td>Invent tags on the fly</td></tr>
+          <tr><td>Date your Notes entries</td><td>Overwrite history silently</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <section id="sop-final">
+      <div class="sec-head"><div class="num">18</div><h2 class="sec-title">To finalize during setup</h2></div>
+      <div class="tablewrap"><table>
+        <thead><tr><th>#</th><th>Open item</th><th>Depends on</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td><b>Placement</b> — CRM Contacts module vs. Contacts app</td><td>Day-1 access audit (see Taxonomy, above)</td></tr>
+          <tr><td>2</td><td><b>Direct-editor list</b></td><td>Alicia's call</td></tr>
+          <tr><td>3</td><td><b>Final field/tag values</b></td><td>Taxonomy sign-off (see Taxonomy, above)</td></tr>
+        </tbody>
+      </table></div>
+      <p>Once these three lock, this outline compresses into the one-page SOP delivered at WS1 handoff.</p>
+    </section>
+  </div>
+  </div>
+  <div class="tab" id="tab-templates">
+  <div class="part">
+    <div class="pbanner"><div class="plabel">Service line · 10 hrs · up to 10 templates</div><h2 class="ptitle">Email &amp; Document Template Development</h2></div>
+
+    <section id="ws3">
+      <div class="sec-head"><div class="num">01</div><h2 class="sec-title">Email &amp; Document Templates</h2></div>
+      <div class="ws-meta"><span class="tag dark">Budget: 10 hrs · up to 10 templates</span><span class="tag">Trigger: brand tone from Alicia (copy only — structure doesn't wait)</span></div>
+      <div class="steps">
+        <div class="srow"><span class="sn">1</span><div class="sbody"><b>List sign-off</b><span>Propose the 10 (below in this tab) — 6 emails + 4 documents. Alicia's approval before building protects the 10 hrs.</span></div><span class="shrs">~0.5 hr</span></div>
+        <div class="srow"><span class="sn">2</span><div class="sbody"><b>Skeleton build</b><span>Layouts + merge fields mapped to CRM fields, styled per the existing style guide — can run before the tone arrives (needs Zoho access; or pre-draft in Docs without it).</span></div><span class="shrs">~2.5 hrs</span></div>
+        <div class="srow"><span class="sn">3</span><div class="sbody"><b>Copy in brand tone</b><span>Write email/document copy once Alicia's tone guide lands; mark the customizable fields.</span></div><span class="shrs">~3.5 hrs</span></div>
+        <div class="srow"><span class="sn">4</span><div class="sbody"><b>Review round</b><span>One consolidated feedback round — a single round keeps it inside 10 hrs.</span></div><span class="shrs">~1.5 hrs</span></div>
+        <div class="srow"><span class="sn">5</span><div class="sbody"><b>Load, test, document</b><span>Load into Zoho, test merge fields + rendering, one-line usage note per template (when to use, what to customize).</span></div><span class="shrs">~2 hrs</span></div>
+      </div>
+      <div class="call"><span class="ctag">Outputs</span>Up to 10 approved templates live in Zoho · usage notes.</div>
+    </section>
+  </div>
+
+  <div class="part">
+    <div class="pbanner secondary"><div class="plabel">For sign-off</div><h2 class="ptitle">Template List Proposal</h2></div>
+
+    <section id="tpl-why">
+      <div class="sec-head"><div class="num">02</div><h2 class="sec-title">Why these ten</h2></div>
+      <p class="lead">Each template covers a recurring moment in MEH's two funnels — the <b>expat journey</b> (inquire → get helped → subscribe → refer) and the <b>provider journey</b> (outreach → interview → onboard → profile). Nothing speculative: if a moment won't recur, it doesn't earn a template slot.</p>
+      <div class="call"><span class="ctag">Scope reading</span>The SOW's "up to 10 standardized email and document templates" is read as <b>one combined pool of ten across both types</b> — proposed here as 6 emails + 4 documents. Alicia's sign-off locks this reading along with the list.</div>
+    </section>
+
+    <section id="tpl-ten">
+      <div class="sec-head"><div class="num">03</div><h2 class="sec-title">The proposed ten</h2></div>
+      <p><b>Emails (6)</b></p>
+      <div class="tablewrap"><table>
+        <thead><tr><th>#</th><th>Template</th><th>When it's used</th><th>Audience</th><th>Key merge fields</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td><b>Inquiry Response</b></td><td>An expat inquiry arrives (email, website, social DM)</td><td>Expat Lead</td><td>First Name · Hub · Inquiry Topic</td></tr>
+          <tr><td>2</td><td><b>Provider Outreach</b></td><td>First approach to a provider — introduce MEH, invite to connect / be interviewed</td><td>Provider</td><td>First Name · Clinic · Specialty · Hub</td></tr>
+          <tr><td>3</td><td><b>Provider Onboarding</b></td><td>A provider says yes — what happens next, interview logistics</td><td>Provider</td><td>First Name · Clinic</td></tr>
+          <tr><td>4</td><td><b>Lead Follow-up</b></td><td>No reply after a set number of days — one gentle nudge</td><td>Expat Lead</td><td>First Name · Inquiry Topic</td></tr>
+          <tr><td>5</td><td><b>Newsletter Shell</b></td><td>The recurring master layout — reusable header, story blocks, footer</td><td>Tag: Newsletter + Consent = Yes</td><td>First Name</td></tr>
+          <tr><td>6</td><td><b>Thank-you / Referral</b></td><td>After helping a lead or airing an interview — thanks + a referral ask</td><td>Expat Lead · Provider</td><td>First Name</td></tr>
+        </tbody>
+      </table></div>
+      <p><b>Documents (4)</b></p>
+      <div class="tablewrap"><table>
+        <thead><tr><th>#</th><th>Template</th><th>When it's used</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>7</td><td><b>Letterhead</b></td><td>Any branded document or formal letter</td><td>The base every other doc sits on</td></tr>
+          <tr><td>8</td><td><b>Provider Profile One-Pager</b></td><td>Summarizing a provider — doubles as directory asset and interview prep sheet</td><td>Pulls: Clinic · Specialty · Languages · Insurance · Hub</td></tr>
+          <tr><td>9</td><td><b>Expat Welcome Pack</b></td><td>Sent to a new lead/client — how MEH helps, what to expect, key Panama healthcare basics</td><td>The flagship "you're in good hands" piece — kept lean (~3–4 pages) for v1</td></tr>
+          <tr><td>10</td><td><b>Agreement Shell</b></td><td>A clean, branded shell for provider listing or engagement letters</td><td>Structure only — final wording is Alicia's/legal's to supply</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <section id="tpl-notes">
+      <div class="sec-head"><div class="num">04</div><h2 class="sec-title">Expert notes — the choices that matter</h2></div>
+      <div class="steps">
+        <div class="srow"><span class="sn">1</span><div class="sbody"><b>Inquiry Response is the highest-stakes template</b><span>Speed and warmth on the first reply is where trust is won or lost — it gets the most copy attention, and pairs with the 1-hour TAT.</span></div></div>
+        <div class="srow"><span class="sn">2</span><div class="sbody"><b>One job, one CTA per email</b><span>Every email carries exactly one call to action. Multi-ask emails depress response — the follow-up exists so the second ask has its own send.</span></div></div>
+        <div class="srow"><span class="sn">3</span><div class="sbody"><b>The Newsletter Shell is one layout, many issues</b><span>Locked header/footer, swappable story blocks — each issue becomes content work, not design work.</span></div></div>
+        <div class="srow"><span class="sn">4</span><div class="sbody"><b>Thank-you / Referral is the growth template</b><span>Referrals are how a trust business grows; asking at the moment of delivered value is when yes-rates peak.</span></div></div>
+        <div class="srow"><span class="sn">5</span><div class="sbody"><b>Compliance is built into the footer</b><span>Every email ships with an unsubscribe line wired to Marketing Consent, and sends always respect <em>Do Not Contact</em> — matching the SOP's same-day consent rule.</span></div></div>
+        <div class="srow"><span class="sn">6</span><div class="sbody"><b>Mobile-first, skimmable</b><span>Short paragraphs, generous type — the audience skews retiree, so legibility beats cleverness.</span></div></div>
+        <div class="srow"><span class="sn">7</span><div class="sbody"><b>Merge fields = taxonomy fields</b><span>Every bracketed field is a field in the approved taxonomy — personalization comes free from clean data, with no manual editing.</span></div></div>
+      </div>
+    </section>
+
+    <section id="tpl-order">
+      <div class="sec-head"><div class="num">05</div><h2 class="sec-title">Build order — within the 10 hrs</h2></div>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Wave</th><th>Templates</th><th>Why first</th></tr></thead>
+        <tbody>
+          <tr><td><b>1 — Workhorses</b></td><td>Inquiry Response · Provider Outreach · Newsletter Shell</td><td>The three that get used the moment operations start</td></tr>
+          <tr><td><b>2 — The journey</b></td><td>Provider Onboarding · Lead Follow-up · Thank-you/Referral · Welcome Pack</td><td>Complete both funnels end-to-end</td></tr>
+          <tr><td><b>3 — Foundations</b></td><td>Letterhead · Provider One-Pager · Agreement Shell</td><td>Needed less urgently; fastest to produce</td></tr>
+        </tbody>
+      </table></div>
+      <p class="muted">Skeletons for all ten can be structured now from the style guide; copy flows in as soon as the brand tone arrives. Shared components (letterhead base, email header/footer system) are built once and reused — that's what makes ten fit in ten hours.</p>
+    </section>
+
+    <section id="tpl-signoff">
+      <div class="sec-head"><div class="num">06</div><h2 class="sec-title">Sign-off</h2></div>
+      <p><b>Alicia:</b> a "yes / swap" on the list above locks the template set. Any swap keeps us at ten; anything beyond ten is a scope addition to flag before building.</p>
+    </section>
+  </div>
+  </div>
+  <div class="tab" id="tab-ongoing">
+  <div class="part">
+    <div class="pbanner"><div class="plabel">Service line · 5 hrs / month · recurring</div><h2 class="ptitle">Ongoing Administrative &amp; CRM Support</h2></div>
+
+    <section id="ws2">
+      <div class="sec-head"><div class="num">01</div><h2 class="sec-title">CRM — Ongoing Support</h2></div>
+      <div class="ws-meta"><span class="tag dark">Budget: 5 hrs / month · recurring</span><span class="tag">Trigger: after CRM setup completes</span></div>
+      <div class="jobs">
+        <div class="job"><b>Weekly · light</b><span>Process contact adds/updates and template-send requests as they come in.</span></div>
+        <div class="job"><b>Monthly · once</b><span>Hygiene pass (new dupes, gaps) + a short report — contacts added/updated, tasks done, hours used vs. the 5-hr budget.</span></div>
+        <div class="job"><b>Ad hoc</b><span>Admin requests through one agreed channel.</span></div>
+      </div>
+      <p><b>Operating rules to set in week 1:</b></p>
+      <ol class="rules">
+        <li>Single intake channel for requests — <b>Email</b> (confirmed).</li>
+        <li>Turnaround for change requests: <b>1 hour</b> target, <b>24 hours</b> at the latest.</li>
+        <li>Hour tracking per request; flag Cherry at ~80% of the monthly 5 hrs so overage is a decision, not a surprise.</li>
+        <li><b>Project update every Monday</b> — status and progress to Alicia via email; hours and time logging are reported internally to RH management.</li>
+      </ol>
+      <div class="call"><span class="ctag">Outputs</span>Monthly mini-report · logged hours.</div>
+    </section>
+  </div>
+  </div>
   </main>
 </div>
 
 <footer>
   <div class="wrap">
-    <span>My Expat Healthcare · Project Requirements &amp; Build Plan</span>
+    <span>My Expat Healthcare · Requirements, Execution Plan, Taxonomy, SOP &amp; Templates</span>
     <span>Prepared by <span class="v">Rogers Hollow LLC</span> · Confidential · August 2026</span>
   </div>
 </footer>
@@ -394,24 +854,31 @@
 <script>
   (function(){
     var btn=document.getElementById('toTop');
-    var links=[].slice.call(document.querySelectorAll('nav.toc a'));
-    var map={};
-    links.forEach(function(a){ map[a.getAttribute('href').slice(1)]=a; });
     window.addEventListener('scroll',function(){
       if(window.scrollY>400) btn.classList.add('show'); else btn.classList.remove('show');
     },{passive:true});
     btn.addEventListener('click',function(){ window.scrollTo({top:0,behavior:'smooth'}); });
-    if('IntersectionObserver' in window){
-      var io=new IntersectionObserver(function(es){
-        es.forEach(function(e){
-          if(e.isIntersecting){
-            links.forEach(function(l){l.classList.remove('active');});
-            var a=map[e.target.id]; if(a) a.classList.add('active');
-          }
-        });
-      },{rootMargin:'-30% 0px -60% 0px'});
-      document.querySelectorAll('main section').forEach(function(s){io.observe(s);});
+
+    var links=[].slice.call(document.querySelectorAll('nav.topnav a'));
+    var tabs=[].slice.call(document.querySelectorAll('.tab'));
+    var nav=document.querySelector('nav.topnav');
+    function show(id, scroll){
+      var found=false;
+      tabs.forEach(function(t){ var on=(t.id===id); t.classList.toggle('active',on); if(on) found=true; });
+      if(!found){ tabs[0].classList.add('active'); id=tabs[0].id; }
+      links.forEach(function(l){ l.classList.toggle('active', l.getAttribute('href')==='#'+id); });
+      if(scroll){ window.scrollTo({top:nav.offsetTop, behavior:'auto'}); }
     }
+    links.forEach(function(l){
+      l.addEventListener('click',function(e){
+        e.preventDefault();
+        var id=l.getAttribute('href').slice(1);
+        if(history.pushState) history.pushState(null,'','#'+id); else location.hash=id;
+        show(id,true);
+      });
+    });
+    window.addEventListener('hashchange',function(){ show(location.hash.slice(1),true); });
+    show(location.hash ? location.hash.slice(1) : 'tab-overview', false);
   })();
 </script>
 </body>
