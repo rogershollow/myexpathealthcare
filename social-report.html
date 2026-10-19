@@ -1,0 +1,609 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>MEH Social Media Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Layout: a single report column you fill in top to bottom, with a sticky toolbar for period + PDF */
+:root{
+  --bg:#FAF6F0; --surface:#FFFFFF; --field:#FFFDF9; --ink:#1A1A1A; --muted:#6B6259; --line:#E5DACB;
+  --accent:#C15A2B; --accent-hover:#A34B24; --accent-ink:#FFFFFF; --sand:#C9A57C; --sage:#7C8A6E;
+  --up:#3D7547; --down:#B0392A; --banner:#F2E5D4;
+  --display:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --body:"Inter", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#16130F; --surface:#211D17; --field:#1A1712; --ink:#F1EBE2; --muted:#A99E90; --line:#3A3229;
+  --accent:#E07A4A; --accent-hover:#EC8F63; --accent-ink:#1A1A1A; --sand:#C9A57C; --sage:#A4B193;
+  --up:#83C48E; --down:#F28B79; --banner:#2B2219; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#16130F; --surface:#211D17; --field:#1A1712; --ink:#F1EBE2; --muted:#A99E90; --line:#3A3229;
+  --accent:#E07A4A; --accent-hover:#EC8F63; --accent-ink:#1A1A1A; --sand:#C9A57C; --sage:#A4B193;
+  --up:#83C48E; --down:#F28B79; --banner:#2B2219; color-scheme:dark}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 var(--body);margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+.wrap{max-width:980px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 64px}
+
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--line)}
+.bar .wrap{padding-block:10px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.brand{font:600 15px/1.2 var(--display);letter-spacing:.01em}
+.brand small{display:block;font:500 11px/1.3 var(--body);color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+.tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:2px;background:var(--field)}
+.seg button{border:0;background:transparent;color:var(--muted);font:500 13px var(--body);padding:6px 14px;border-radius:999px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.btn{border:1px solid var(--line);background:var(--field);color:var(--ink);font:500 13px var(--body);padding:8px 14px;border-radius:8px;cursor:pointer}
+.btn:hover{border-color:var(--sand)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+.btn.primary:hover{background:var(--accent-hover)}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.status{font-size:13px;color:var(--muted);min-height:1.2em;padding-top:8px}
+.banner{margin-top:16px;background:var(--banner);border-radius:10px;padding:12px 14px;font-size:14px;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;justify-content:space-between}
+.confirm{margin-top:12px;border:1px solid var(--down);border-radius:10px;padding:12px 14px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-size:14px}
+
+header.cover{padding-block:28px 8px;display:grid;gap:14px}
+.eyebrow{font:600 11px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+h1{font:600 clamp(28px,4.4vw,40px)/1.1 var(--display);margin:0;text-wrap:balance}
+.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+label.f{display:grid;gap:4px;font-size:12px;color:var(--muted);font-weight:500}
+input,textarea{font:15px/1.4 var(--body);color:var(--ink);background:var(--field);border:1px solid var(--line);border-radius:8px;padding:8px 10px;width:100%;min-width:0}
+textarea{resize:vertical;min-height:84px}
+input::placeholder,textarea::placeholder{color:var(--muted);opacity:.7}
+
+section.block{margin-top:34px}
+section.block>h2{font:600 22px/1.2 var(--display);margin:0 0 4px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+section.block>h2 .tag{font:500 12px var(--body);color:var(--muted)}
+.lead{color:var(--muted);margin:0 0 14px;max-width:68ch;font-size:14px}
+.rule{height:2px;background:linear-gradient(90deg,var(--accent) 0 56px,var(--line) 56px);margin-bottom:14px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-variant-numeric:tabular-nums}
+th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
+tr:last-child>*{border-bottom:0}
+thead th{font:600 11px var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:var(--field)}
+tbody th{font-weight:500;width:38%}
+tbody th small{display:block;color:var(--muted);font-weight:400;font-size:12px;line-height:1.35}
+td input{text-align:right;padding:6px 8px}
+td.num,th.num{text-align:right}
+tr.calc{background:var(--field)}
+tr.calc th{font-weight:600}
+tr.calc td{text-align:right;font-weight:600}
+.chg{font-weight:600;white-space:nowrap}
+.chg.up{color:var(--up)} .chg.down{color:var(--down)} .chg.flat{color:var(--muted)}
+.snap td{text-align:right} .snap td:first-child{text-align:left;font-weight:600}
+
+.sub{margin-top:16px;display:grid;gap:10px}
+.sub h3{font:600 15px var(--display);margin:6px 0 0}
+.gloss{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px 22px;font-size:14px}
+.gloss dt{font-weight:600} .gloss dd{margin:0 0 6px;color:var(--muted)}
+footer{margin-top:40px;font-size:12px;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+
+<div class="bar">
+  <div class="wrap">
+    <div class="brand">My Expat Healthcare<small>Social media report</small></div>
+    <div class="tools">
+      <div class="seg" role="group" aria-label="Report period">
+        <button type="button" id="p-weekly" data-period="weekly" aria-pressed="true">Weekly</button>
+        <button type="button" id="p-monthly" data-period="monthly" aria-pressed="false">Monthly</button>
+      </div>
+      <button type="button" class="btn" id="btn-clear">Clear all</button>
+      <button type="button" class="btn primary" id="btn-pdf">Download PDF</button>
+    </div>
+  </div>
+</div>
+
+<main class="wrap">
+  <div class="status" id="status" role="status" aria-live="polite"></div>
+  <div class="banner" id="example-banner" hidden>
+    <span><strong>These are example figures.</strong> Replace them with your numbers, or start fresh. The PDF is marked “Example data” until you clear them.</span>
+    <button type="button" class="btn" id="btn-clear2">Start fresh</button>
+  </div>
+  <div class="confirm" id="confirm" hidden>
+    <span>Clear every field in this report? This can't be undone.</span>
+    <button type="button" class="btn primary" id="confirm-yes">Clear report</button>
+    <button type="button" class="btn" id="confirm-no">Keep it</button>
+  </div>
+
+  <header class="cover">
+    <div class="eyebrow" id="eyebrow">Weekly report</div>
+    <h1 id="title">Social Media Report</h1>
+    <div class="meta">
+      <label class="f">Period starts<input type="date" id="meta.start" data-path="meta.start"></label>
+      <label class="f">Period ends<input type="date" id="meta.end" data-path="meta.end"></label>
+      <label class="f">Prepared for<input id="meta.for" data-path="meta.for"></label>
+      <label class="f">Prepared by<input id="meta.by" data-path="meta.by"></label>
+    </div>
+  </header>
+
+  <section class="block">
+    <h2>At a glance</h2>
+    <div class="rule"></div>
+    <p class="lead">The three biggest wins, one thing to keep an eye on, and the main action for the period ahead. Keep each to one sentence.</p>
+    <div class="grid2">
+      <label class="f">Win 1<textarea id="summary.win1" data-path="summary.win1"></textarea></label>
+      <label class="f">Win 2<textarea id="summary.win2" data-path="summary.win2"></textarea></label>
+      <label class="f">Win 3<textarea id="summary.win3" data-path="summary.win3"></textarea></label>
+      <label class="f">Keep an eye on<textarea id="summary.watch" data-path="summary.watch"></textarea></label>
+      <label class="f">Main action for the period ahead<textarea id="summary.next" data-path="summary.next"></textarea></label>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>All platforms <span class="tag">Fills in automatically</span></h2>
+    <div class="rule"></div>
+    <div class="tbl"><table class="snap"><thead><tr><th>Platform</th><th class="num">Followers</th><th class="num">Net new</th><th class="num">Reach</th><th class="num">Engagements</th><th class="num">Engagement rate</th><th class="num" id="snap-chg">Reach vs previous week</th></tr></thead><tbody id="snapshot"></tbody></table></div>
+  </section>
+
+  <section class="block">
+    <h2>Community sign-ups</h2>
+    <div class="rule"></div>
+    <p class="lead">How social media turned into new members. Take the member counts from the daily sign-up report emails for the period.</p>
+    <div class="tbl"><table><thead><tr><th>Measure</th><th class="num lbl-prev">Previous week</th><th class="num lbl-cur">Last week</th><th class="num">Change</th></tr></thead><tbody id="signup-rows"></tbody></table></div>
+    <div class="sub"><label class="f">Notes on sign-ups<textarea id="signups.notes" data-path="signups.notes"></textarea></label></div>
+  </section>
+
+  <div id="platforms"></div>
+
+  <section class="block">
+    <h2>Takeaways and next steps</h2>
+    <div class="rule"></div>
+    <div class="grid2">
+      <label class="f">What worked<textarea id="insights.worked" data-path="insights.worked"></textarea></label>
+      <label class="f">What we'll try next<textarea id="insights.test" data-path="insights.test"></textarea></label>
+      <label class="f">Coming up<textarea id="insights.upcoming" data-path="insights.upcoming"></textarea></label>
+      <label class="f">Needed from you<textarea id="insights.needs" data-path="insights.needs"></textarea></label>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>What these numbers mean</h2>
+    <div class="rule"></div>
+    <dl class="gloss" id="glossary"></dl>
+  </section>
+
+  <footer>Your entries are saved in this browser as you type. Download the PDF to send or keep a copy.</footer>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+<script>
+(function(){
+const KEY = "meh-social-report-v1";
+
+const PLATFORMS = [
+  {id:"li_profile", name:"LinkedIn: Alicia's profile", short:"LinkedIn profile", followersKey:"followers", reachKey:"reached",
+   engKeys:["reactions","comments","reposts"], engNote:"Reactions + comments + reposts",
+   lead:"Alicia's personal LinkedIn. Numbers come from LinkedIn analytics or Zoho Social.",
+   metrics:[["followers","Followers","num","Total at the end of the period"],["posts","Posts published","num"],
+    ["impressions","Impressions","num","Times posts appeared on screen"],["reached","Members reached","num","Different people who saw a post"],
+    ["reactions","Reactions","num"],["comments","Comments","num"],["reposts","Reposts","num"],
+    ["profileViews","Profile views","num","People who looked at Alicia's profile"],["search","Search appearances","num","Times Alicia showed up in LinkedIn search"]]},
+  {id:"li_company", name:"LinkedIn: My Expat Healthcare page", short:"LinkedIn page", followersKey:"followers", reachKey:"unique",
+   engKeys:["reactions","comments","reposts","clicks"], engNote:"Reactions + comments + reposts + clicks", ctr:true,
+   lead:"The My Expat Healthcare company page.",
+   metrics:[["followers","Followers","num","Total at the end of the period"],["posts","Posts published","num"],
+    ["impressions","Impressions","num","Times posts appeared on screen"],["unique","Unique impressions","num","Different people who saw a post"],
+    ["clicks","Clicks","num","Clicks on posts, links, or the page name"],["reactions","Reactions","num"],["comments","Comments","num"],
+    ["reposts","Reposts","num"],["pageViews","Page views","num","Visits to the company page"]]},
+  {id:"instagram", name:"Instagram", short:"Instagram", followersKey:"followers", reachKey:"reach",
+   engKeys:["likes","comments","saves","shares"], engNote:"Likes + comments + saves + shares",
+   lead:"Posts, Reels, and Stories together. Saves and shares are the strongest signs people found a post useful.",
+   metrics:[["followers","Followers","num","Total at the end of the period"],["posts","Posts and Reels published","num"],
+    ["reach","Accounts reached","num","Different people who saw content"],["views","Views","num","Total times content was viewed"],
+    ["profileVisits","Profile visits","num"],["linkTaps","Link taps","num","Taps on the link in the bio"],
+    ["likes","Likes","num"],["comments","Comments","num"],["saves","Saves","num"],["shares","Shares","num"]]},
+  {id:"youtube", name:"YouTube", short:"YouTube", followersKey:"subscribers", reachKey:"views",
+   engKeys:["likes","comments","shares"], engNote:"Likes + comments + shares",
+   lead:"Interview videos and Shorts. Watch time and average view duration show whether people stay to watch.",
+   metrics:[["subscribers","Subscribers","num","Total at the end of the period"],["posts","Videos published","num"],
+    ["views","Views","num"],["watchHours","Watch time (hours)","num","Total hours watched"],
+    ["avgDur","Average view duration","dur","How long a typical viewer watched, in minutes:seconds"],
+    ["impressions","Thumbnail impressions","num","Times a thumbnail was shown on YouTube"],
+    ["ctr","Thumbnail click-through rate","pct","Share of impressions that became a view, as a %"],
+    ["likes","Likes","num"],["comments","Comments","num"],["shares","Shares","num"]]}
+];
+const SIGNUP = [["clicks","Clicks to the sign-up page","num","From social links, link in bio, and QR codes"],
+  ["community","New Community Members","num","Free members, from the daily sign-up report"],
+  ["founding","New Founding Members","num","Paid members, from the daily sign-up report"]];
+const GLOSSARY = [
+  ["Reach","How many different people saw your content. One person seeing three posts counts once."],
+  ["Impressions / views","How many times content was shown. One person seeing three posts counts three times."],
+  ["Engagements","Actions people took on your posts, such as likes, comments, shares, and saves."],
+  ["Engagement rate","Engagements divided by reach. It shows how many of the people who saw a post did something with it."],
+  ["Net new followers","Followers gained minus followers lost during the period."],
+  ["Click-through rate","The share of people who clicked after seeing a post or thumbnail."],
+  ["Watch time","Total hours people spent watching your videos."],
+  ["Average view duration","How long a typical viewer kept watching a video."]
+];
+
+const EXAMPLE = {
+  example:true, period:"weekly",
+  meta:{start:"2026-10-12", end:"2026-10-18", for:"Alicia D. Smith, My Expat Healthcare", by:"The Rogers Hollow Team"},
+  summary:{win1:"Dr. Ron Elledge's Medicare clip was our most-watched video yet.",
+    win2:"Instagram saves doubled thanks to the Medicare checklist carousel.",
+    win3:"9 new Community Members joined, most from the Instagram link in bio.",
+    watch:"LinkedIn page reach dipped because only one post went out last week.",
+    next:"Approve the October posts in Zoho Social so we can schedule two LinkedIn page posts a week."},
+  platforms:{
+    li_profile:{prev:{followers:"1,284",posts:"2",impressions:"3,410",reached:"1,920",reactions:"64",comments:"11",reposts:"4",profileViews:"88",search:"41"},
+      cur:{followers:"1,309",posts:"3",impressions:"4,980",reached:"2,640",reactions:"97",comments:"18",reposts:"7",profileViews:"121",search:"57"},
+      top:{title:"Why your US doctor's records matter before you move",link:"",type:"Text post with image",result:"1,850 impressions, 9 comments",why:"A personal story with one clear takeaway started a real conversation in the comments."},notes:""},
+    li_company:{prev:{followers:"212",posts:"2",impressions:"1,140",unique:"690",clicks:"38",reactions:"21",comments:"2",reposts:"3",pageViews:"64"},
+      cur:{followers:"219",posts:"1",impressions:"760",unique:"470",clicks:"29",reactions:"16",comments:"1",reposts:"2",pageViews:"51"},
+      top:{title:"Medicare Part 1: Living abroad as an expat",link:"",type:"Video",result:"760 impressions, 29 clicks",why:"Timely topic during open enrollment."},notes:""},
+    instagram:{prev:{followers:"640",posts:"3",reach:"2,210",views:"5,380",profileVisits:"142",linkTaps:"19",likes:"188",comments:"14",saves:"22",shares:"17"},
+      cur:{followers:"671",posts:"4",reach:"3,060",views:"7,940",profileVisits:"205",linkTaps:"31",likes:"246",comments:"21",saves:"47",shares:"29"},
+      top:{title:"5 things Medicare won't cover abroad",link:"",type:"Carousel",result:"1,120 reached, 31 saves",why:"A practical checklist people want to keep for later."},notes:""},
+    youtube:{prev:{subscribers:"156",posts:"1",views:"612",watchHours:"38.5",avgDur:"3:42",impressions:"5,900",ctr:"4.1",likes:"27",comments:"5",shares:"6"},
+      cur:{subscribers:"171",posts:"2",views:"1,048",watchHours:"71.2",avgDur:"4:05",impressions:"8,800",ctr:"4.8",likes:"49",comments:"9",shares:"14"},
+      top:{title:"Medicare & Enrollment with Dr. Ron Elledge",link:"",type:"Interview video",result:"684 views, 4:31 average view duration",why:"Clear expert answers to a question many viewers are asking right now."},notes:""}
+  },
+  signups:{prev:{clicks:"48",community:"6",founding:"0"},cur:{clicks:"74",community:"9",founding:"1"},notes:"Most clicks came from the Instagram link in bio after the Medicare carousel."},
+  insights:{worked:"Practical checklists and short expert clips. People save and share content they can use.",
+    test:"A 30-second Reel teaser for each interview, posted the day before the full video.",
+    upcoming:"Medicare Part 2 clips, the November edition teaser, and a Dr. O journey post.",
+    needs:"Approval of the October posts in Zoho Social, and any photos from Panama we can use."}
+};
+
+function blank(){
+  const s = {example:false, period:"weekly", meta:{start:"",end:"",for:"Alicia D. Smith, My Expat Healthcare",by:"The Rogers Hollow Team"},
+    summary:{win1:"",win2:"",win3:"",watch:"",next:""}, platforms:{}, signups:{prev:{},cur:{},notes:""},
+    insights:{worked:"",test:"",upcoming:"",needs:""}};
+  PLATFORMS.forEach(p=>{s.platforms[p.id]={prev:{},cur:{},top:{title:"",link:"",type:"",result:"",why:""},notes:""}});
+  return s;
+}
+function clone(o){return JSON.parse(JSON.stringify(o))}
+function merge(base, saved){ // keep structure if fields were added later
+  if(!saved||typeof saved!=="object") return base;
+  for(const k in saved){ if(base[k]&&typeof base[k]==="object"&&!Array.isArray(base[k])) merge(base[k],saved[k]); else base[k]=saved[k]; }
+  return base;
+}
+let state;
+try{ const raw = localStorage.getItem(KEY); state = raw ? merge(blank(), JSON.parse(raw)) : clone(EXAMPLE); }catch(e){ state = clone(EXAMPLE); }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+
+// ---------- helpers ----------
+const $ = s=>document.querySelector(s);
+const esc = s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function getPath(path){return path.split(".").reduce((o,k)=>o==null?undefined:o[k],state)}
+function setPath(path,val){const ks=path.split(".");let o=state;ks.slice(0,-1).forEach(k=>{if(o[k]==null)o[k]={};o=o[k]});o[ks[ks.length-1]]=val}
+function parse(kind, v){
+  if(v==null) return null; v=String(v).trim(); if(!v) return null;
+  if(kind==="dur"){ if(v.includes(":")){const [m,s]=v.split(":");const n=(+m)*60+(+s);return isNaN(n)?null:n;} const n=+v; return isNaN(n)?null:n; }
+  const n = Number(v.replace(/[,%\s]/g,"")); return isNaN(n)?null:n;
+}
+const nf = new Intl.NumberFormat("en-US",{maximumFractionDigits:1});
+function fmt(kind,n){
+  if(n==null) return "–";
+  if(kind==="dur"){const s=Math.round(n);return Math.floor(s/60)+":"+String(s%60).padStart(2,"0")}
+  if(kind==="pct") return n.toFixed(1)+"%";
+  return nf.format(n);
+}
+function change(kind, cur, prev){
+  if(cur==null||prev==null) return {t:"–",c:"flat"};
+  const d = cur-prev; const c = d>0?"up":d<0?"down":"flat"; const sign = d>0?"+":d<0?"-":"";
+  if(kind==="pct") return {t: d===0?"No change":sign+Math.abs(d).toFixed(1)+" pts", c};
+  if(kind==="dur") return {t: d===0?"No change":sign+fmt("dur",Math.abs(d)), c};
+  if(d===0) return {t:"No change",c};
+  const pct = prev===0 ? "new" : sign+Math.round(Math.abs(d)/prev*100)+"%";
+  return {t: sign+nf.format(Math.abs(d))+" ("+pct+")", c};
+}
+function val(pid, which, key, kind){return parse(kind||"num", state.platforms[pid][which][key])}
+function calc(p, which){
+  const g = k=>val(p.id,which,k);
+  const parts = p.engKeys.map(g);
+  const eng = parts.every(x=>x==null) ? null : parts.reduce((a,b)=>a+(b||0),0);
+  const reach = g(p.reachKey);
+  const er = (eng!=null && reach) ? eng/reach*100 : null;
+  const out = {eng, er, reach, followers:g(p.followersKey)};
+  if(p.ctr){const cl=g("clicks"), im=g("impressions"); out.ctr = (cl!=null&&im)?cl/im*100:null;}
+  return out;
+}
+function netNew(p){const c=val(p.id,"cur",p.followersKey), pr=val(p.id,"prev",p.followersKey); return (c!=null&&pr!=null)?c-pr:null}
+function labels(){const m=state.period==="monthly"; return {cur:m?"Last month":"Last week", prev:m?"Previous month":"Previous week", per:m?"month":"week", Per:m?"Monthly":"Weekly"}}
+
+// ---------- render ----------
+function inputCell(path, kind){
+  const v = getPath(path) ?? "";
+  return `<td><input id="${esc(path)}" data-path="${esc(path)}" data-kind="${kind}" inputmode="${kind==='dur'?'text':'decimal'}" value="${esc(v)}" aria-label="${esc(path)}" placeholder="${kind==='dur'?'0:00':''}"></td>`;
+}
+function renderPlatforms(){
+  const L = labels();
+  $("#platforms").innerHTML = PLATFORMS.map(p=>{
+    const rows = p.metrics.map(([k,lab,kind,help])=>`<tr><th scope="row">${esc(lab)}${help?`<small>${esc(help)}</small>`:""}</th>
+      ${inputCell(`platforms.${p.id}.prev.${k}`,kind)}${inputCell(`platforms.${p.id}.cur.${k}`,kind)}
+      <td class="num"><span class="chg" data-chg="${p.id}:${k}:${kind}"></span></td></tr>`).join("");
+    const calcRows = `
+      <tr class="calc"><th scope="row">Net new ${p.followersKey}<small>Fills in automatically</small></th><td>–</td><td data-calc="${p.id}:net"></td><td></td></tr>
+      <tr class="calc"><th scope="row">Engagements<small>${esc(p.engNote)}</small></th><td data-calc="${p.id}:prev:eng"></td><td data-calc="${p.id}:cur:eng"></td><td><span class="chg" data-chgc="${p.id}:eng"></span></td></tr>
+      <tr class="calc"><th scope="row">Engagement rate<small>Engagements ÷ ${esc(p.metrics.find(m=>m[0]===p.reachKey)[1].toLowerCase())}</small></th><td data-calc="${p.id}:prev:er"></td><td data-calc="${p.id}:cur:er"></td><td><span class="chg" data-chgc="${p.id}:er"></span></td></tr>
+      ${p.ctr?`<tr class="calc"><th scope="row">Click-through rate<small>Clicks ÷ impressions</small></th><td data-calc="${p.id}:prev:ctr"></td><td data-calc="${p.id}:cur:ctr"></td><td><span class="chg" data-chgc="${p.id}:ctr"></span></td></tr>`:""}`;
+    const t = `platforms.${p.id}.top`;
+    const f = (k,lab,ta)=>`<label class="f">${lab}${ta?`<textarea id="${t}.${k}" data-path="${t}.${k}">${esc(getPath(t+"."+k))}</textarea>`:`<input id="${t}.${k}" data-path="${t}.${k}" value="${esc(getPath(t+"."+k))}">`}</label>`;
+    return `<section class="block" id="sec-${p.id}">
+      <h2>${esc(p.name)}</h2><div class="rule"></div><p class="lead">${esc(p.lead)}</p>
+      <div class="tbl"><table><thead><tr><th>Measure</th><th class="num">${L.prev}</th><th class="num">${L.cur}</th><th class="num">Change</th></tr></thead><tbody>${rows}${calcRows}</tbody></table></div>
+      <div class="sub"><h3>Top post, ${L.cur.toLowerCase()}</h3>
+        <div class="grid2">${f("title","Post")}${f("type","Format")}${f("result","Result")}${f("link","Link")}</div>
+        ${f("why","Why it worked",true)}
+        <label class="f">Notes<textarea id="platforms.${p.id}.notes" data-path="platforms.${p.id}.notes">${esc(state.platforms[p.id].notes)}</textarea></label>
+      </div></section>`;
+  }).join("");
+}
+function renderSignups(){
+  $("#signup-rows").innerHTML = SIGNUP.map(([k,lab,kind,help])=>`<tr><th scope="row">${esc(lab)}<small>${esc(help)}</small></th>
+    ${inputCell(`signups.prev.${k}`,kind)}${inputCell(`signups.cur.${k}`,kind)}<td class="num"><span class="chg" data-chgs="${k}"></span></td></tr>`).join("") +
+    `<tr class="calc"><th scope="row">Total new members<small>Fills in automatically</small></th><td data-calcs="prev"></td><td data-calcs="cur"></td><td><span class="chg" data-chgs="total"></span></td></tr>`;
+}
+function fillStatic(){
+  document.querySelectorAll("header [data-path], section [data-path]").forEach(el=>{
+    if(el.closest("#platforms")||el.closest("#signup-rows")) return;
+    el.value = getPath(el.dataset.path) ?? "";
+  });
+  $("#glossary").innerHTML = GLOSSARY.map(([t,d])=>`<div><dt>${esc(t)}</dt><dd>${esc(d)}</dd></div>`).join("");
+}
+function setChg(el, r){ if(!el) return; el.textContent=r.t; el.className="chg "+r.c; }
+function signupTotal(which){const c=parse("num",state.signups[which].community), f=parse("num",state.signups[which].founding); return (c==null&&f==null)?null:(c||0)+(f||0)}
+function update(){
+  const L = labels();
+  document.querySelectorAll(".lbl-prev").forEach(e=>e.textContent=L.prev);
+  document.querySelectorAll(".lbl-cur").forEach(e=>e.textContent=L.cur);
+  $("#snap-chg").textContent = "Reach vs " + L.prev.toLowerCase();
+  $("#eyebrow").textContent = L.Per + " report";
+  $("#title").textContent = L.Per + " Social Media Report";
+  $("#p-weekly").setAttribute("aria-pressed", state.period==="weekly");
+  $("#p-monthly").setAttribute("aria-pressed", state.period==="monthly");
+  $("#example-banner").hidden = !state.example;
+
+  PLATFORMS.forEach(p=>{
+    p.metrics.forEach(([k,,kind])=>setChg(document.querySelector(`[data-chg="${p.id}:${k}:${kind}"]`), change(kind, val(p.id,"cur",k,kind), val(p.id,"prev",k,kind))));
+    const c=calc(p,"cur"), pr=calc(p,"prev");
+    const set=(sel,txt)=>{const e=document.querySelector(sel); if(e) e.textContent=txt};
+    const nn = netNew(p);
+    set(`[data-calc="${p.id}:net"]`, nn==null?"–":(nn>0?"+":"")+nf.format(nn));
+    set(`[data-calc="${p.id}:prev:eng"]`, fmt("num",pr.eng)); set(`[data-calc="${p.id}:cur:eng"]`, fmt("num",c.eng));
+    set(`[data-calc="${p.id}:prev:er"]`, fmt("pct",pr.er)); set(`[data-calc="${p.id}:cur:er"]`, fmt("pct",c.er));
+    setChg(document.querySelector(`[data-chgc="${p.id}:eng"]`), change("num",c.eng,pr.eng));
+    setChg(document.querySelector(`[data-chgc="${p.id}:er"]`), change("pct",c.er,pr.er));
+    if(p.ctr){ set(`[data-calc="${p.id}:prev:ctr"]`, fmt("pct",pr.ctr)); set(`[data-calc="${p.id}:cur:ctr"]`, fmt("pct",c.ctr));
+      setChg(document.querySelector(`[data-chgc="${p.id}:ctr"]`), change("pct",c.ctr,pr.ctr)); }
+  });
+  $("#snapshot").innerHTML = PLATFORMS.map(p=>{
+    const c=calc(p,"cur"), pr=calc(p,"prev"), nn=netNew(p), ch=change("num",c.reach,pr.reach);
+    return `<tr><td>${esc(p.short)}</td><td>${fmt("num",c.followers)}</td><td>${nn==null?"–":(nn>0?"+":"")+nf.format(nn)}</td><td>${fmt("num",c.reach)}</td><td>${fmt("num",c.eng)}</td><td>${fmt("pct",c.er)}</td><td><span class="chg ${ch.c}">${ch.t}</span></td></tr>`;
+  }).join("");
+  SIGNUP.forEach(([k,,kind])=>setChg(document.querySelector(`[data-chgs="${k}"]`), change(kind, parse(kind,state.signups.cur[k]), parse(kind,state.signups.prev[k]))));
+  const tc=signupTotal("cur"), tp=signupTotal("prev");
+  document.querySelector('[data-calcs="prev"]').textContent=fmt("num",tp);
+  document.querySelector('[data-calcs="cur"]').textContent=fmt("num",tc);
+  setChg(document.querySelector('[data-chgs="total"]'), change("num",tc,tp));
+}
+function renderAll(){ renderPlatforms(); renderSignups(); fillStatic(); update(); }
+
+// ---------- events ----------
+document.addEventListener("input", e=>{
+  const el = e.target; if(!el.dataset || !el.dataset.path) return;
+  setPath(el.dataset.path, el.value);
+  if(el.dataset.path==="meta.start" && el.value){ autoEnd(); }
+  save(); update();
+});
+function autoEnd(){
+  const d = new Date(state.meta.start+"T00:00:00"); if(isNaN(d)) return;
+  let end;
+  if(state.period==="monthly"){ end = new Date(d.getFullYear(), d.getMonth()+1, 0); }
+  else { end = new Date(d); end.setDate(d.getDate()+6); }
+  const iso = end.getFullYear()+"-"+String(end.getMonth()+1).padStart(2,"0")+"-"+String(end.getDate()).padStart(2,"0");
+  state.meta.end = iso; $("#meta\\.end").value = iso;
+}
+document.querySelectorAll("[data-period]").forEach(b=>b.addEventListener("click",()=>{
+  state.period = b.dataset.period;
+  if(state.period==="monthly" && state.meta.start){ const d=new Date(state.meta.start+"T00:00:00"); if(!isNaN(d)){ state.meta.start = d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-01"; } }
+  if(state.meta.start) autoEnd();
+  save(); renderAll();
+}));
+function askClear(){ $("#confirm").hidden=false; $("#confirm-yes").focus(); }
+$("#btn-clear").addEventListener("click", askClear);
+$("#btn-clear2").addEventListener("click", askClear);
+$("#confirm-no").addEventListener("click", ()=>{$("#confirm").hidden=true});
+$("#confirm-yes").addEventListener("click", ()=>{
+  const period = state.period; state = blank(); state.period = period; save(); renderAll();
+  $("#confirm").hidden=true; flash("Report cleared. Start by entering the period dates.");
+});
+function flash(msg){ $("#status").textContent = msg; }
+
+// ---------- PDF ----------
+function fmtRange(){
+  const s = state.meta.start ? new Date(state.meta.start+"T00:00:00") : null, e = state.meta.end ? new Date(state.meta.end+"T00:00:00") : null;
+  if(!s) return "";
+  const mo = d=>d.toLocaleString("en-US",{month:"short"});
+  if(state.period==="monthly" && (!e || (e.getMonth()===s.getMonth()))) return s.toLocaleString("en-US",{month:"long",year:"numeric"});
+  if(!e) return mo(s)+" "+s.getDate()+", "+s.getFullYear();
+  if(s.getFullYear()!==e.getFullYear()) return `${mo(s)} ${s.getDate()}, ${s.getFullYear()} – ${mo(e)} ${e.getDate()}, ${e.getFullYear()}`;
+  if(s.getMonth()===e.getMonth()) return `${mo(s)} ${s.getDate()}–${e.getDate()}, ${s.getFullYear()}`;
+  return `${mo(s)} ${s.getDate()} – ${mo(e)} ${e.getDate()}, ${s.getFullYear()}`;
+}
+const clean = s=>String(s??"").replace(/[−]/g,"-").replace(/÷/g,"/").replace(/[^\x09\x0A\x0D\x20-\x7E -ÿ–—‘’“”•…]/g,"");
+
+function buildPDF(){
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({unit:"pt", format:"letter"});
+  const W=612, H=792, M=50, CW=W-2*M;
+  const SIENNA=[193,90,43], INK=[26,26,26], MUTED=[107,98,89], LINE=[229,218,203], OFF=[250,246,240], SAGE=[124,138,110], UP=[61,117,71], DOWN=[176,57,42];
+  const L = labels(), range = fmtRange();
+  let y = M;
+
+  function need(h){ if(y+h > H-56){ doc.addPage(); y = M; } }
+  function heading(t){
+    need(60);
+    y += 10;
+    doc.setFont("times","bold"); doc.setFontSize(16); doc.setTextColor(...INK); doc.text(clean(t), M, y);
+    y += 7; doc.setDrawColor(...SIENNA); doc.setLineWidth(2); doc.line(M, y, M+44, y);
+    doc.setDrawColor(...LINE); doc.setLineWidth(0.6); doc.line(M+44, y, M+CW, y);
+    y += 16;
+  }
+  function para(label, text, opts={}){
+    text = clean(text).trim(); if(!text) return;
+    doc.setFontSize(10);
+    const lines = doc.splitTextToSize(text, CW - (label?0:0));
+    need(14 + lines.length*13);
+    if(label){ doc.setFont("helvetica","bold"); doc.setTextColor(...(opts.labelColor||SIENNA)); doc.setFontSize(8.5); doc.text(clean(label).toUpperCase(), M, y); y += 12; }
+    doc.setFont("helvetica","normal"); doc.setFontSize(10); doc.setTextColor(...INK);
+    doc.text(lines, M, y); y += lines.length*13 + 8;
+  }
+  function table(head, body, opts={}){
+    need(28 + body.length*20);
+    doc.autoTable({
+      startY:y, head:[head], body, margin:{left:M,right:M}, theme:"plain",
+      styles:{font:"helvetica", fontSize:9.5, textColor:INK, cellPadding:{top:5,bottom:5,left:6,right:6}, lineColor:LINE, lineWidth:{bottom:0.5}},
+      headStyles:{fillColor:SIENNA, textColor:[255,255,255], fontStyle:"bold", fontSize:8.5},
+      alternateRowStyles:{fillColor:OFF},
+      columnStyles: opts.columnStyles || {},
+      didParseCell: d=>{
+        if(d.section==="head"){ if(d.column.index>0) d.cell.styles.halign="right"; return; }
+        if(d.section!=="body") return;
+        if(opts.boldRows && opts.boldRows.includes(d.row.index)) d.cell.styles.fontStyle="bold";
+        if(opts.chgCol!=null && d.column.index===opts.chgCol){
+          const t=String(d.cell.raw||""); if(t.startsWith("+")) d.cell.styles.textColor=UP; else if(t.startsWith("-")) d.cell.styles.textColor=DOWN; else d.cell.styles.textColor=MUTED;
+        }
+      }
+    });
+    y = doc.lastAutoTable.finalY + 14;
+  }
+  const right = {halign:"right"};
+
+  // Cover band
+  doc.setFillColor(...SIENNA); doc.rect(0,0,W,6,"F");
+  doc.setFont("helvetica","bold"); doc.setFontSize(8.5); doc.setTextColor(...SIENNA);
+  doc.text("MY EXPAT HEALTHCARE  ·  " + L.Per.toUpperCase() + " REPORT", M, y+6);
+  if(state.example){ doc.setTextColor(...DOWN); doc.text("EXAMPLE DATA", W-M, y+6, {align:"right"}); }
+  y += 34;
+  doc.setFont("times","bold"); doc.setFontSize(28); doc.setTextColor(...INK);
+  doc.text("Social Media Report", M, y); y += 22;
+  doc.setFont("helvetica","normal"); doc.setFontSize(12); doc.setTextColor(...MUTED);
+  doc.text(clean(range || "Period not set"), M, y); y += 18;
+  doc.setFontSize(9.5);
+  const metaLine = [state.meta.for && "Prepared for "+state.meta.for, state.meta.by && "Prepared by "+state.meta.by].filter(Boolean).join("   |   ");
+  if(metaLine){ doc.text(clean(metaLine), M, y); y += 14; }
+  y += 6;
+
+  // Summary
+  const wins = [state.summary.win1,state.summary.win2,state.summary.win3].map(s=>clean(s).trim()).filter(Boolean);
+  if(wins.length || state.summary.watch || state.summary.next){
+    heading("At a glance");
+    if(wins.length){
+      doc.setFont("helvetica","bold"); doc.setFontSize(8.5); doc.setTextColor(...SIENNA); need(16); doc.text("WINS", M, y); y += 12;
+      doc.setFont("helvetica","normal"); doc.setFontSize(10); doc.setTextColor(...INK);
+      wins.forEach(w=>{ const lines=doc.splitTextToSize(w, CW-14); need(lines.length*13+4); doc.text("•", M, y); doc.text(lines, M+12, y); y += lines.length*13+3; });
+      y += 6;
+    }
+    para("Keep an eye on", state.summary.watch);
+    para("Main action for the "+L.per+" ahead", state.summary.next);
+  }
+
+  // Snapshot
+  heading("All platforms");
+  table(["Platform","Followers","Net new","Reach","Engagements","Eng. rate","Reach vs "+L.prev.toLowerCase()],
+    PLATFORMS.map(p=>{const c=calc(p,"cur"),pr=calc(p,"prev"),nn=netNew(p);
+      return [p.short, fmt("num",c.followers), nn==null?"–":(nn>0?"+":"")+nf.format(nn), fmt("num",c.reach), fmt("num",c.eng), fmt("pct",c.er), change("num",c.reach,pr.reach).t]}),
+    {chgCol:6, columnStyles:{1:right,2:right,3:right,4:right,5:right,6:right}});
+
+  // Sign-ups
+  heading("Community sign-ups");
+  const sRows = SIGNUP.map(([k,lab,kind])=>{const c=parse(kind,state.signups.cur[k]),p=parse(kind,state.signups.prev[k]);return [lab, fmt(kind,p), fmt(kind,c), change(kind,c,p).t]});
+  const tc=signupTotal("cur"), tp=signupTotal("prev");
+  sRows.push(["Total new members", fmt("num",tp), fmt("num",tc), change("num",tc,tp).t]);
+  table(["Measure",L.prev,L.cur,"Change"], sRows, {chgCol:3, boldRows:[sRows.length-1], columnStyles:{0:{cellWidth:CW*0.42},1:right,2:right,3:right}});
+  para("Notes", state.signups.notes, {labelColor:SAGE});
+
+  // Platforms
+  PLATFORMS.forEach(p=>{
+    heading(p.name);
+    const rows = p.metrics.map(([k,lab,kind])=>{const c=val(p.id,"cur",k,kind),pr=val(p.id,"prev",k,kind);return [lab, fmt(kind,pr), fmt(kind,c), change(kind,c,pr).t]});
+    const c=calc(p,"cur"), pr=calc(p,"prev"), nn=netNew(p);
+    const first = rows.length;
+    rows.push(["Net new "+p.followersKey, "–", nn==null?"–":(nn>0?"+":"")+nf.format(nn), ""]);
+    rows.push(["Engagements", fmt("num",pr.eng), fmt("num",c.eng), change("num",c.eng,pr.eng).t]);
+    rows.push(["Engagement rate", fmt("pct",pr.er), fmt("pct",c.er), change("pct",c.er,pr.er).t]);
+    if(p.ctr) rows.push(["Click-through rate", fmt("pct",pr.ctr), fmt("pct",c.ctr), change("pct",c.ctr,pr.ctr).t]);
+    const bold=[]; for(let i=first;i<rows.length;i++) bold.push(i);
+    table(["Measure",L.prev,L.cur,"Change"], rows, {chgCol:3, boldRows:bold, columnStyles:{0:{cellWidth:CW*0.42},1:right,2:right,3:right}});
+    const t = state.platforms[p.id].top;
+    if([t.title,t.type,t.result,t.why,t.link].some(x=>String(x||"").trim())){
+      const head = [t.title, t.type && "("+t.type+")"].filter(Boolean).join(" ");
+      para("Top post, "+L.cur.toLowerCase(), [head, t.result].filter(Boolean).join(" — "));
+      if(t.why) para("Why it worked", t.why, {labelColor:SAGE});
+      if(t.link) para("Link", t.link, {labelColor:SAGE});
+    }
+    para("Notes", state.platforms[p.id].notes, {labelColor:SAGE});
+  });
+
+  // Insights
+  const ins = state.insights;
+  if([ins.worked,ins.test,ins.upcoming,ins.needs].some(x=>String(x||"").trim())){
+    heading("Takeaways and next steps");
+    para("What worked", ins.worked); para("What we'll try next", ins.test);
+    para("Coming up", ins.upcoming); para("Needed from you", ins.needs);
+  }
+
+  // Glossary
+  heading("What these numbers mean");
+  GLOSSARY.forEach(([t,d])=>{
+    doc.setFontSize(9.5); const lines = doc.splitTextToSize(clean(d), CW-130); need(lines.length*12+6);
+    doc.setFont("helvetica","bold"); doc.setTextColor(...INK); doc.text(clean(t), M, y);
+    doc.setFont("helvetica","normal"); doc.setTextColor(...MUTED); doc.text(lines, M+130, y); y += lines.length*12+6;
+  });
+
+  // Footers
+  const n = doc.getNumberOfPages();
+  for(let i=1;i<=n;i++){
+    doc.setPage(i);
+    doc.setDrawColor(...LINE); doc.setLineWidth(0.5); doc.line(M, H-38, W-M, H-38);
+    doc.setFont("helvetica","normal"); doc.setFontSize(8); doc.setTextColor(...MUTED);
+    doc.text(clean("My Expat Healthcare  ·  "+L.Per+" Social Media Report"+(range?"  ·  "+range:"")), M, H-26);
+    doc.text(`Page ${i} of ${n}`, W-M, H-26, {align:"right"});
+  }
+  return doc;
+}
+function fileName(){
+  const L=labels(); const r=fmtRange().replace(/,/g,"").replace(/\s*[–—]\s*/g,"-").replace(/\s+/g," ").trim();
+  return `MEH Social Media Report - ${L.Per}${r?" - "+r:""}.pdf`;
+}
+$("#btn-pdf").addEventListener("click", async ()=>{
+  if(!window.jspdf || !window.jspdf.jsPDF){ flash("The PDF tools didn't load. Reload the page and try again."); return; }
+  let doc; try{ doc = buildPDF(); }catch(err){ flash("Couldn't build the PDF: " + (err && err.message || err)); return; }
+  const blob = doc.output("blob");
+  let dl = null;
+  try{ dl = window.claude && window.claude.use ? await window.claude.use("downloads") : null; }catch(e){ dl = null; }
+  if(!dl){ try{ doc.save(fileName()); flash("PDF downloaded."); }catch(e){ flash("The PDF couldn't be downloaded. Reload the page and try again."); } return; }
+  flash("Preparing your PDF…");
+  try{
+    const r = await dl.save({filename:fileName(), data:blob});
+    flash(r && r.status==="delivered" ? "PDF sent." : "PDF downloaded.");
+  }catch(err){
+    const code = err && err.code;
+    if(code==="declined") flash("Download cancelled.");
+    else if(code==="rate_limited") flash("A download prompt is already open. Finish that one first.");
+    else flash("The PDF couldn't be downloaded here. Reload the page and try again.");
+  }
+});
+
+renderAll();
+})();
+</script>
+
+</body>
+</html>
